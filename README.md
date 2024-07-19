@@ -27,4 +27,5 @@ http://hometogo0625.dothome.co.kr/EquipmentSystem/
 - Specific UI Design
 - Further Consideration about Stability and Concurrency
 - Testing
+- Refactoring
 
