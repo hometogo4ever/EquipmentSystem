@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대여가 완료되었습니다.</title>
+    <link href="./css/header.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/buyafter.css" rel="stylesheet" type="text/css"/>
+    <script src="js/jquery.js"></script>
+    <script>
+        $(function() {
+            function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === name + '=') {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+            function printdata() {
+                const buylist = getCookie('afterbuy');
+                const list = buylist.split(',');
+                for (var i=0; i<list.length; i++) {
+                    $('#afterbuylist > ul').append(
+                        `<li><div class="item">
+                            <div class="iteminfo">
+                                <h2>${list[i]}</h2>
+                            </div>
+                        </div></li>`
+                    );
+                }
+                const now = new Date();
+                now.setDate(now.getDate() + 2);
+                $('#due > p').html(`반납 마감일은 <span>${now.getFullYear()}년 ${now.getMonth()+1}월 ${now.getDate()}일 14시</span> 입니다.`);
+
+            }
+            printdata();
+            checkLoginStatus();
+        });
+    </script>
+</head>
+<body>
+    <div id="container">
+        <header>
+            <div class="mainheader">
+                <img src="img/logo.png">
+                <h2>서울대학교 아마추어천문회</h2>
+            </div>
+            <div class="linker">
+                <ul>
+                    <li><a href="index.html">메인화면으로</a></li>
+                    <li><a href="https://our.snuaaa.net/">AAA 홈페이지</a></li>
+                </ul>
+            </div>
+            <div id="title">
+                <h1>AAA 장비대여시스템</h1>
+            </div>
+            <div id ="account">
+                <ul>
+                </ul>
+            </div>
+        </header>
+        <div id="section-wrapper">
+        <section>
+            <h1>구매가 완료되었습니다.</h1>
+            <h2>구매한 목록은 다음과 같습니다.</h2>
+            <div id="afterbuylist">
+                <ul>
+                </ul>
+            </div>
+            <div id="due">
+                <p>
+                </p>
+            </div>
+            <div id="buttons">
+                <a href="list.html"><button id="tolist">목록으로</button></a>
+                <a href="index.html"><button id="tomain">메인으로</button></a>
+            </div>
+        </section>
+        </div>
+    </div>
+</body>
+</html>

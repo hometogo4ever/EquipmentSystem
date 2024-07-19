@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>장비등록</title>
+</head>
+<script src="js/jquery.js"></script>
+<script>
+    $(function() {
+        $.ajax({
+            url: 'php/getEquipment.php',
+            type: 'post',
+            success: function(data) {
+                var list = JSON.parse(data);
+                for (var i = 0; i < list.length; i++) {
+                    $('#result table tbody').append('<tr><td>' + list[i].eqname + '</td><td>' + list[i].maker + '</td><td>' + list[i].type + '</td><td>' + list[i].locname + '</td><td>' + list[i].equip_status + '</td><td>' + list[i].pic_ref  + '</td><td>' + list[i].nickname  + '</td><td>' + list[i].feature +'</td></tr>');
+                }
+            },
+            error: function() {
+                alert('서버와의 통신에 실패했습니다.');
+            }
+        });
+
+        $('#submit').click(function(e) {
+            e.preventDefault(); // Prevent default form submission
+
+            var formData = new FormData();
+            formData.append('name', $('#name').val());
+            formData.append('model', $('#model').val());
+            formData.append('category', $('#category').val());
+            formData.append('location', $('#location').val());
+            formData.append('status', $('#status').val());
+            formData.append('picture', $('#picture')[0].files[0]);
+            formData.append('nickname', $('#nickname').val());
+            formData.append('feature', $('#feature').val());
+
+            $.ajax({
+                url: 'php/register.php',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(data) {
+                    console.log(data); // Log the response for debugging
+                    if (data == 1) {
+                        alert('장비등록 성공');
+                        window.location.href = 'register.html';
+                    } else {
+                        alert('장비등록 실패:');
+                        window.location.href = 'register.html';
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr, status, error);
+                    alert('서버와의 통신에 실패했습니다.');
+                }
+            });
+        });
+    });
+</script>
+<body>
+    <a href="master.html">관리자 페이지</a>
+    <a href="index.html">메인페이지</a>
+    <form enctype="multipart/form-data">
+        <fieldset>
+            <legend>장비등록</legend>
+            <ul>
+                <li class="form-group">
+                    <label for="name">장비명</label>
+                    <input type="text" id="name" name="name" required>
+                </li>
+
+                <li class="form-group">
+                    <label for="model">제작사</label>
+                    <input type="text" id="model" name="model">
+                </li>
+
+                <li class="form-group">
+                    <label for="category">장비분류</label>
+                    <select id="category" name="category" required>
+                        <option value="1">가대</option>
+                        <option value="2">삼각대</option>
+                        <option value="3">경통</option>
+                        <option value="4">카메라</option>
+                        <option value="5">렌즈</option>
+                        <option value="6">아이피스</option>
+                        <option value="7">안시용필터</option>
+                        <option value="8">보조렌즈</option>
+                        <option value="9">전원장치</option>
+                        <option value="10">무게추</option>
+                        <option value="11">T링</option>
+                        <option value="12">어댑터</option>
+                        <option value="13">쌍안경</option>
+                        <option value="14">사진용필터</option>
+                        <option value="15">릴리즈</option>
+                        <option value="16">카메라삼각대</option>
+                        <option value="17">기타관측장비</option>
+                        <option value="18">기타사진장비</option>
+                    </select>
+                </li>
+                <li class="form-group">
+                    <label for="location">장비위치</label>
+                    <input type="text" id="location" name="location" required>
+                </li>
+                <li class="form-group">
+                    <label for="status">장비상태</label>
+                    <select id="status" name="status">
+                        <option value="1">대여가능</option>
+                        <option value="2">대여중</option>
+                        <option value="3">수리중</option>
+                        <option value="4">폐기</option>
+                        <option value="5">기타</option>
+                    </select>
+                </li>
+                <li>
+                    <label for="picture">사진</label>
+                    <input type="file" id="picture" name="picture" accept="image/*">
+                </li>
+                <li>
+                    <label for="nickname">별명</label>
+                    <input type="text" id="nickname" name="nickname">
+                </li>
+                <li>
+                    <label for="feature">특성</label>
+                    <input type="text" id="feature" name="feature">
+                </li>
+            </ul>
+            <button id="submit">등록</button>
+        </fieldset>
+    </form>
+    <div id="result">
+        <table>
+            <thead>
+                <tr>
+                    <th>장비명</th>
+                    <th>제작사</th>
+                    <th>장비분류</th>
+                    <th>장비위치</th>
+                    <th>상태</th>
+                    <th>사진</th>
+                    <th>별명</th>
+                    <th>특성</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

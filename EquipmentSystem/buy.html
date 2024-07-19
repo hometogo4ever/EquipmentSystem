@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>대여신청</title>
+    <link href="./css/header.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/buy.css" rel="stylesheet" type="text/css"/>
+    <script src="js/jquery.js"></script>
+    <script>
+        $(function() {
+            function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === name + '=') {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+            function checkLoginStatus() {
+                const isLoggedIn = getCookie('user_id');
+                if (!isLoggedIn) {
+                    $('#container > header > #account').html(
+                        `<p>로그인이 필요합니다.</p>
+                        <ul>
+                            <li><a href="login.html"><button>로그인</button></a></li>
+                            <li><a href="join.html"><button>회원가입</button></a></li>
+                        </ul>`
+                    );
+                } else {
+                    $('#container > header > #account').html(
+                        `<p>환영합니다, ${isLoggedIn}님!</p>
+                        <ul>
+                            <li><a href="php/logout.php"><button id="logout">로그아웃</button></a></li>
+                            <li><a href="mypage.html"><button>마이페이지</button></a></li>
+                        </ul>`);
+                }
+            }
+            function checkLoginStatus2() {
+                const isLoggedIn = getCookie('user_id');
+                if (!isLoggedIn) {
+                    alert('로그인이 필요합니다.');
+                    window.location.href = 'login.html';
+                } 
+            }
+            function printdata(list) {
+                $('#itemlist > table > tbody').empty;
+                for (var i=0; i<list.length; i++) {
+                    const pic_ref = list[i].pic_ref ? list[i].pic_ref : 'default.jpg';
+                    $('#itemlist > table > tbody').append(
+                        `<tr class="item">
+                            <td class="itemimg"><img src="./php/img/equipment/${pic_ref}" alt="장비사진"></td>
+                            <td class="iteminfo">${list[i].eqname}</td>
+                            <td class="buttons"><button id="delete" name=${list[i].eqname}>삭제</button></td>
+                        </tr>`
+                    );
+                }
+            }
+            function checkBuylist() {
+                const buylist = getCookie('buylist');
+                if (!buylist) {
+                    alert('장바구니가 비어있습니다.');
+                    window.location.href = 'list.html';
+                }
+                const arr = buylist.split(',');
+                console.log(arr);
+                $.ajax({
+                    url: 'php/getitems.php',
+                    type: 'post',
+                    data: {
+                        items: arr
+                    },
+                    success: function(data) {
+                        var list = JSON.parse(data);
+                        printdata(list);
+                    },
+                    fail: function() {
+                        alert('서버와의 통신에 실패했습니다.');
+                    }
+                });
+            }
+            $('#confirm').click(function() {
+                const buylist = getCookie('buylist');
+                const isLoggedIn = getCookie('user_id');
+                const arr = buylist.split(',');
+                $.ajax({
+                    url: 'php/buyconfirm.php',
+                    type: 'post',
+                    data: {
+                        items: arr,
+                        user_id: isLoggedIn
+                    },
+                    success: function(data) {
+                        console.log(data);
+                        if (data == 0) {
+                            alert('구매가 완료되었습니다.');
+                            window.location.href = 'buyafter.html';
+                        } else {
+                            alert(`${data}개의 장비가 구매되지 않았습니다.`);
+                            window.location.href = 'buy.html';
+                        }
+                        
+                    },
+                    fail: function() {
+                        alert('서버와의 통신에 실패했습니다.');
+                    }
+                });
+            }); 
+            $(document).on('click', '#delete', function() {
+                const item = $(this).attr('name');
+                const buylist = getCookie('buylist');
+                const arr = buylist.split(',');
+                const index = arr.indexOf(item);
+                arr.splice(index, 1);
+                document.cookie = `buylist=${arr}`;
+                window.location.href = 'buy.html';
+            });
+            checkLoginStatus2();
+            checkBuylist();
+            checkLoginStatus();
+        });
+    </script>
+</head>
+<body>
+    <div id="container">
+        <header>
+            <div class="mainheader">
+                <img src="img/logo.png">
+                <h2>서울대학교 아마추어천문회</h2>
+            </div>
+            <div class="linker">
+                <ul>
+                    <li><a href="index.html">메인화면으로</a></li>
+                    <li><a href="https://our.snuaaa.net/">AAA 홈페이지</a></li>
+                </ul>
+            </div>
+            <div id="title">
+                <h1>AAA 장비대여시스템</h1>
+            </div>
+            <div id ="account">
+                <ul>
+                </ul>
+            </div>
+        </header>
+        <div id="section-wrapper">
+        <section>
+            <h2>신청목록</h2>
+            <div id="itemlist">
+                <table>
+                    <thead>
+                        <th>장비사진</th>
+                        <th>장비이름</th>
+                        <th>삭제</th>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <div id="buttons">
+                <a href="list.html"><button id="add">장비 추가</button></a>
+                <button id="confirm">구매하기</button>
+            </div>
+        </section>
+        
+        </div>
+        <footer>
+            <p>서울대학교 아마추어 천문회</p>
+        </footer>
+    </div>
+</body>
+</html>

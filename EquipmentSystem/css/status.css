@@ -1,0 +1,64 @@
+.item img {
+    clear:both;
+    width: 200px;
+    height: auto;
+}
+section > h1 {
+    text-align: center;
+    font-size: 2em;
+    padding-top: 20px;
+    margin-bottom: 0px;
+}
+#statuslist {
+    width: 100%;
+    margin: 0 auto;
+}
+#statuslist > ul {
+    list-style: none;
+    padding: 30px;
+    margin: 0;
+}
+#statuslist > ul > li {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+    padding: 20px;
+    border: 1.5px solid#16a198;
+}
+.item {
+    display: flex;
+    width : 100%;
+    justify-content: space-between;
+    
+}
+.iteminfo {
+    width: 80%;
+    padding: 0px 20px;
+}
+.iteminfo h2 {
+    font-size: 1.5em;
+    padding : 5px 0px;
+}
+.iteminfo p {
+    font-size: 1em;
+    padding : 3px 10px;
+}
+.iteminfo h3 {
+    font-size: 1.2em;
+    padding : 0px 10px;
+    color: red;
+}
+.retbutton {
+    width: 100%;
+    padding: 0px 20px;
+    text-align: center;
+}
+button {
+    width: 300px;
+    height: 30px;
+    background-color: #16a198;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}

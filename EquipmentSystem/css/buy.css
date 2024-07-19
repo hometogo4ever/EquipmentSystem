@@ -1,0 +1,65 @@
+section > h2 {
+    margin: 20px;
+    padding: 10px;
+    text-align: center;
+    font-size: 3em;
+}
+#itemlist {
+    margin: 20px;
+    padding: 10px;
+}
+#itemlist > table {
+    width: 100%;
+    border-collapse: collapse;
+}
+#itemlist > table > thead th {
+    padding : 10px 0px;
+    border: 2px solid rgb(139, 139, 139);
+}
+#itemlist > table > thead th:nth-child(1) {
+    width: 100px;
+}
+#itemlist > table > thead th:nth-child(2) {
+    width: 70%;
+}
+#itemlist > table > tbody > tr > td {
+    padding: 5px;
+    border: 2px solid rgb(139, 139, 139);
+
+}
+.itemimg > img {
+    width: 100px;
+    height: auto;
+}
+.item > td.iteminfo {
+    margin: 18px;
+    text-align: left;
+    padding: 15px;
+    font-weight: bold;
+    font-size: 1.5em;
+}
+.item > .buttons {
+    padding: 10px;
+    text-align: center;
+}
+.item > .buttons > button {
+    padding: 5px;
+    font-size: 1em;
+    background-color: #f0f0f0;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+#buttons {
+    margin: 20px;
+    padding: 10px;
+    text-align: center;
+}
+#buttons button {
+    background-color: rgb(8, 139, 129);
+    color: white;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 5px;
+}

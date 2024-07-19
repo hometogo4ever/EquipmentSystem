@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입</title>
+    <link href="./css/header.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/login.css" rel="stylesheet" type="text/css"/>
+    <script src="js/jquery.js"></script>
+    <script>
+        $(function() {
+            var isIdChecked = false;
+            function validatePassword(pw, pw2) {
+                var minLength = 8; // 최소 길이
+                var hasNumber = /\d/; // 숫자 포함
+                var hasUpper = /[A-Z]/; // 대문자 포함
+                var hasLower = /[a-z]/; // 소문자 포함
+                // 비밀번호 길이 검사
+                if (pw.length < minLength) {
+                    alert('비밀번호는 최소 8자 이상이어야 합니다.');
+                    return false;
+                }
+                // 숫자 포함 검사
+                if (!hasNumber.test(pw)) {
+                    alert('비밀번호에는 최소 1개 이상의 숫자가 포함되어야 합니다.');
+                    return false;
+                }
+                // 소문자 포함 검사
+                if (!hasLower.test(pw)) {
+                    alert('비밀번호에는 최소 1개 이상의 소문자가 포함되어야 합니다.');
+                    return false;
+                }
+                if (pw != pw2) {
+                    alert('비밀번호가 일치하지 않습니다.');
+                    return false;
+                }
+                return true; // 모든 조건을 만족
+            }
+            $('#submits').click(function(e) {
+                if (!isIdChecked) {
+                    alert('아이디 중복확인을 해주세요.');
+                    e.preventDefault();
+                    return;
+                }
+                var id = $('#id').val();
+                var pw = $('#pw').val();
+                var pw2 = $('#pw2').val();
+                var name = $('#name').val();
+                var num = $('#num').val();
+                var dept = $('#dept').val();
+                var email = $('#email').val();
+                if (!validatePassword(pw, pw2)) {
+                    e.preventDefault();
+                    return;
+                }
+
+                $.ajax({
+                    url: 'php/test.php',
+                    type: 'post',
+                    data: {
+                        id: id,
+                        pw: pw,
+                        name: name,
+                        num: num,
+                        dept: dept,
+                        email: email
+                    },
+                    success: function(data) {
+                        console.log(data);
+                        alert('회원가입 완료');
+                        window.location.href = 'login.html';
+                    }
+            
+                });
+
+            });
+
+            $('#check').click(function() {
+                var id = $('#id').val();
+
+                $.ajax({
+                    url: 'php/check.php',
+                    type: 'post',
+                    data: {
+                        id: id
+                    },
+                    success: function(data) {
+                        if(data == 1) {
+                            alert('중복된 아이디입니다.');
+                            isIdChecked = false;
+                        } else {
+                            alert('사용 가능한 아이디입니다.');
+                            isIdChecked = true;
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+    <style>
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="mainheader">
+                <img src="img/logo.png">
+                <h2>서울대학교 아마추어천문회</h2>
+            </div>
+            <div class="linker">
+                <ul>
+                    <li><a href="index.html">메인화면으로</a></li>
+                    <li><a href="https://our.snuaaa.net/">AAA 홈페이지</a></li>
+                </ul>
+            </div>
+            <div id="title">
+                <h1>AAA 장비대여시스템</h1>
+            </div>
+        </header>
+        <div id="section-wrapper">
+            <section>
+                <h1>회원가입</h1>
+                <form class=""> <!-- form 태그를 이용하여 데이터를 전송할 수 있도록 함 -->
+                    <fieldset>
+                            <legend>아이디입력</legend>
+                        <ul>
+                            <li>
+                                <label for="#id">아이디</label>
+                                <input type="text" id="id" name="id" required>
+                                <button type="submit" id="check">중복확인</button> <!-- 중복확인 버튼을 누르면 중복확인을 할 수 있도록 함 -->
+                            </li>
+                            <li>
+                                <label for="#pw">비밀번호</label>
+                                <input type="password" id="pw" name="pw" required>
+                            </li>
+                            <li>
+                                <label for="#pw">비밀번호확인</label>
+                                <input type="password" id="pw2" name="pw2" required>
+                            </li>
+                        </ul>
+                    </fieldset>
+                    <fieldset>
+                        <legend>회원정보입력</legend>
+                        <ul>
+                            <li>
+                                <label for="#name">이름</label>
+                                <input type="text" id="name" name="name" required>
+                            </li>
+                            <li>
+                                <label for="#num">학번</label>
+                                <input type="text" id="num" name="num" required>
+                            </li>
+                            <li>
+                                <label for="#dept">학과</label>
+                                <input type="text" id="dept" name="dept" required>
+                            </li>
+                            <li>
+                                <label for="#email">이메일</label>
+                                <input type="email" id="email" name="email" required>
+                            </li>
+                        </ul>
+                    </fieldset>
+                    <div id="submits">
+                    <button type="submit" id="submit">회원가입</button>
+                    </div>
+                </form>
+            </section>
+        </div>
+        <footer>
+            <p>서울대학교 아마추어 천문회</p>
+        </footer>
+
+    </div>
+</body>
+</html>

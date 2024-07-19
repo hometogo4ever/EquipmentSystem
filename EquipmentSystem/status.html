@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./css/header.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/status.css" rel="stylesheet" type="text/css"/>
+    <title>나의 장비대여 현황</title>
+    <script src="js/jquery.js"></script>
+    <script>
+        $(function() {
+            function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === name + '=') {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+            function checkLoginStatus() {
+                const isLoggedIn = getCookie('user_id');
+                if (!isLoggedIn) {
+                    alert('로그인이 필요합니다.');
+                    window.location.href = 'login.html';
+                } 
+            }
+            function printdata(list) {
+                $('#statuslist > ul').empty;
+                for (var i=0; i<list.length; i++) {
+                    const dueover = new Date(list[i].due_date) < new Date();
+                    const text = dueover ? '반납기한이 지났습니다.' : '';
+                    $('#statuslist > ul').append(
+                        `<li>
+                            <div class="item">
+                                <img src="./php/img/equipment/${list[i].pic_ref}" alt="장비사진">
+                                <div class="iteminfo">
+                                    <h2>${list[i].eqname}</h2>
+                                    <p>대여일: ${list[i].start_date}</p>
+                                    <p>반납일: ${list[i].due_date}</p>
+                                    <h3>${text}</h3>
+                                    <div class="retbutton">
+                                        <button id="return" name="${list[i].eqid}">반납</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>`
+                    );
+                }
+            }
+            function getdata() {
+                const user_id = getCookie('user_id');
+                $.ajax({
+                    url:'php/getstatus.php',
+                    type:'post',
+                    data: {
+                        user_id: user_id
+                    },
+                    success: function(data) {
+                        console.log(data);
+                        const list = JSON.parse(data);
+                        printdata(list);
+                    }, error: function(xhr, status, error) {
+                        console.error(xhr, status, error);
+                        alert('서버와의 통신에 실패했습니다.');
+                    }
+
+                });
+            }
+            $(document).on('click', '#return', function() {
+                const eqid = $(this).attr('name');
+                const user_id = getCookie('user_id');
+                $.ajax({
+                    url: 'php/return.php',
+                    type: 'post', 
+                    data: {
+                        eqid: eqid,
+                        user_id: user_id
+                    },
+                    success: function(data) {
+                        console.log(data);
+                        if (data == 1) {
+                            alert('반납이 완료되었습니다.');
+                            location.reload();
+                        } else {
+                            alert('반납에 실패했습니다.');
+                        }
+                    }, error: function(xhr, status, error) {
+                        console.error(xhr, status, error);
+                        alert('서버와의 통신에 실패했습니다.');
+                    }
+                });
+            });
+            checkLoginStatus();
+            getdata();
+        });
+    </script>
+</head>
+<body>
+    <div id="container">
+        <header>
+            <div class="mainheader">
+                <img src="img/logo.png">
+                <h2>서울대학교 아마추어천문회</h2>
+            </div>
+            <div class="linker">
+                <ul>
+                    <li><a href="index.html">메인화면으로</a></li>
+                    <li><a href="https://our.snuaaa.net/">AAA 홈페이지</a></li>
+                </ul>
+            </div>
+            <div id="title">
+                <h1>AAA 장비대여시스템</h1>
+            </div>
+            <div id ="account">
+                <ul>
+                </ul>
+            </div>
+        </header>
+    <div id="section-wrapper">
+    <section>
+        <h1>나의 장비 대여 현황</h1>
+        <div id="statuslist">
+            <ul>
+            </ul>
+        </div>
+    </section>
+    </div>
+    <footer>
+        <p>서울대학교 아마추어 천문회</p>
+    </footer>
+    </div>
+</body>
+</html>

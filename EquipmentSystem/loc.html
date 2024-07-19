@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>장소생성</title>
+    <script src="js/jquery.js"></script>
+    <script>
+        $(function() {
+            $.ajax({
+                url: 'php/getloc.php',
+                type: 'post',
+                success: function(data) {
+                    var list = JSON.parse(data);
+                    for (var i = 0; i < list.length; i++) {
+                        $('#list ul').append('<li>' + list[i] + '</li>');
+                    }
+                },
+                fail: function() {
+                    alert('서버와의 통신에 실패했습니다.');
+                }
+            });
+            $('#submit').click(function(e) {
+                var name = $('#name').val();
+                $.ajax({
+                    url: 'php/newloc.php',
+                    type: 'post',
+                    data: {
+                        name: name
+                    },
+                    success: function(data) {
+                        if (data == 1) {
+                            alert('장소생성 성공');
+                        } else if (data == 0) {
+                            alert('장소생성 실패');
+                        } else {
+                            alert(data);
+                        }
+                    },
+                    fail: function() {
+                        alert('서버와의 통신에 실패했습니다.');
+                    }
+                });
+            });
+
+            $('#submitm').click(function(e) {
+                var namem = $('#namem').val();
+                $.ajax({
+                    url: 'php/delloc.php',
+                    type: 'post',
+                    data: {
+                        name: namem
+                    },
+                    success: function(data) {
+                        if (data == 1) {
+                            alert('장소삭제 성공');
+                        } else if (data == 0) {
+                            alert('장소삭제 실패');
+                        } else {
+                            alert(data);
+                        }
+                    },
+                    fail: function() {
+                        alert('서버와의 통신에 실패하였습니다.');
+                    }
+                });
+            });
+        })
+    </script>
+</head>
+<body>
+    <a href="master.html">관리자 페이지</a>
+    <a href="index.html">메인페이지</a>
+    <form>
+        <div id="form_inner">
+            <div class="form-group">
+                <label for="name">생성할 장소명</label>
+                <input type="text" id="name" name="name" required>
+                <button id="submit">장소생성</button>
+            </div>
+            <div class="form-group">
+                <label for="namem">삭제할 장소명</label>
+                <input type="text" id="namem" name="namem" required>
+                <button id="submitm">장소생성</button>
+            </div>
+        </div>
+    </form>
+    <div id="list">
+        <h5>위치 목록</h5>
+        <ul>
+        </ul>
+    </div>
+</body>
+</html>

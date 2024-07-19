@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인</title>
+    <script src="js/jquery.js"></script>
+    <link href="./css/header.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/login.css" rel="stylesheet" type="text/css"/>
+    <script>
+        $(function() {
+            $('#submit').click(function(e) {
+                var id = $('#id').val();
+                var pw = $('#pw').val();
+                $.ajax({
+                    url: 'php/login.php',
+                    type: 'post',
+                    data: {
+                        id: id,
+                        pw: pw
+                    },
+                    success: function(data) {
+                        if (data == 1) {
+                            alert('로그인 성공');
+                            window.location.href = 'index.html';
+                            
+                        } else if (data == 0) {
+                            alert('로그인 실패');
+                        } else {
+                            alert(data);
+                        }
+                    },
+                    fail: function() {
+                        alert('서버와의 통신에 실패했습니다.');
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="mainheader">
+                <img src="img/logo.png">
+                <h2>서울대학교 아마추어천문회</h2>
+            </div>
+            <div class="linker">
+                <ul>
+                    <li><a href="index.html">메인화면으로</a></li>
+                    <li><a href="https://our.snuaaa.net/">AAA 홈페이지</a></li>
+                </ul>
+            </div>
+            <div id="title">
+                <h1>AAA 장비대여시스템</h1>
+            </div>
+        </header>
+        <div id="section-wrapper">
+            <section>
+                <h1>로그인</h1>
+                <form>
+                    <fieldset>
+                        <legend>로그인</legend>
+                        <ul>
+                            <li class="form-group">
+                                <label for="id">아이디</label>
+                                <input type="text" id="id" name="id" required>
+                            </li>
+                            <li class="form-group">
+                                <label for="pw">비밀번호</label>
+                                <input type="password" id="pw" name="pw" required>
+                            </li>
+                        </ul>
+                    </fieldset>
+                </form>
+                <div id="submits">
+                    <button id="submit">로그인</button>
+                    <a href="join.html" id="join"><button id="hlink">회원가입</button></a>
+                </div>
+            </section>
+        </div>
+        <footer>
+            <p>서울대학교 아마추어 천문회</p>
+        </footer>
+    </div>
+</body>
+</html>

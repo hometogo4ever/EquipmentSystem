@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>장비대여시스템</title>
+    <script src="js/jquery.js"></script>
+    <script>
+        $(function() {
+            function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    const cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        const cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === name + '=') {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+
+            function checkLoginStatus() {
+                const isLoggedIn = getCookie('user_id');
+                if (!isLoggedIn) {
+                    $('#container > header > #account').html(
+                        `<p>로그인이 필요합니다.</p>
+                        <ul>
+                            <li><a href="login.html"><button>로그인</button></a></li>
+                            <li><a href="join.html"><button>회원가입</button></a></li>
+                        </ul>`
+                    );
+                } else {
+                    $('#container > header > #account').html(
+                        `<p>환영합니다, ${isLoggedIn}님!</p>
+                        <ul>
+                            <li><a href="php/logout.php"><button id="logout">로그아웃</button></a></li>
+                            <li><a href="mypage.html"><button>마이페이지</button></a></li>
+                        </ul>`);
+                }
+            }
+
+            checkLoginStatus();
+    });
+    </script>
+    <link href="./css/header.css" rel="stylesheet" type="text/css"/>
+    <link href="./css/main.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+    <div id="container">
+        <header>
+            <div class="mainheader">
+                <img src="img/logo.png">
+                <h2>서울대학교 아마추어천문회</h2>
+            </div>
+            <div class="linker">
+                <ul>
+                    <li><a href="index.html">메인화면으로</a></li>
+                    <li><a href="https://our.snuaaa.net/">AAA 홈페이지</a></li>
+                </ul>
+            </div>
+            <div id="title">
+                <h1>AAA 장비대여시스템</h1>
+            </div>
+            <div id ="account">
+                <ul>
+                </ul>
+            </div>
+        </header>
+        <div id="section-wrapper">
+            <section>
+                <div id="links">
+                    <ul>
+                        <li><a href="index.html"><button id="home">홈</button></a></li>
+                        <li><a href="list.html"><button id="rent">장비대여하기</button></a></li>
+                        <li><a href="status.html"><button id="status">나의 장비대여 현황</button></a></li>
+                    </ul>
+                </div>
+                <div id="notice">
+                    <div id="notice-title">
+                        <h2>공지사항</h2>
+                    </div>
+                    <div id="notice-content">
+                        <p>[web발신] 너는나를존중해야한다나는발롱도르5개와수많은개인트로피를들어올렸으며2016유로에서포르투갈을이끌고우승을차지했고동시에A매치역대최다득점자이다또한챔스역대최다득점자이자5번이나우승을차지한레알마드리드의상징이다또한36세의나이에도프리미어리그에서18골을기록하고챔스에서5경기연속골을기록하며내가세계최고임을증명해냈다은혜를모르는맨유보드진과팬들은내가맨유의골칫덩이라며쫒아냈지만내가세계최고이고내가팀보다위대하다는사실은바뀌지않는더내가사우디에간이유는메시에대한자격지심이아니라유럽에서이룰수있는모든것을이루었기에아시아를정복하기위해간것이지단지돈을위해서간것이아니다</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <footer>
+            <p>서울대학교 아마추어 천문회</p>
+        </footer>
+
+    </div>
+</body>
+</html>
