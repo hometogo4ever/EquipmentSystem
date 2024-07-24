@@ -21,7 +21,7 @@ aside #mycart p {
     padding : 5px 0px;
 }
 aside #mycart button {
-    width: 100%;
+    width: calc(100% - 20px);
     background-color: rgb(8, 139, 129);
     color: white;
     border: none;
@@ -29,8 +29,36 @@ aside #mycart button {
     font-size: 16px;
     cursor: pointer;
 }
+#section-wrapper {
+    display: flex;
+    flex-direction: row-reverse;
+    height : 100%;
+    align-items: center;
+    @media screen and (max-width: 800px) {
+        flex-direction: column;
+    }
+}
+aside {
+    height: 100%;
+    @media screen and (max-width: 800px) {
+        max-width: 700px;
+        width: 100%;
+        display: block;
+        padding-bottom: 20px;
+    }
+}
+#section-wrapper > section {
+    width: calc(100% - 350px);
+    @media screen and (max-width: 800px) {
+        width: 100%;
+        display: block;
+    }
+}
 #option {
     margin : 20px 50px;
+    @media screen and (max-width: 800px) {
+        margin: 20px 10px;
+    }
 }
 #option fieldset {
     border: 2px solid rgb(8, 139, 129);
@@ -44,6 +72,7 @@ aside #mycart button {
 }
 #option ul {
     list-style: none;
+    padding: 0px;
 }
 #option li {
     margin: 18px 0px;
@@ -57,6 +86,7 @@ aside #mycart button {
     padding: 5px;
     padding-right: 12px;
     font-size: large;
+    min-width: 40px;
 }
 #option li input, #option li select {
     flex: 7;
