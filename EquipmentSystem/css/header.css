@@ -9,8 +9,8 @@ body {
     height : 100%;
 }
 .mainheader {
-    margin:5px 5px;
-    padding:0 auto;
+    margin: 0;
+    padding: 0 0;
     max-width: 1920px;
     width: 100%;
 }
@@ -35,7 +35,7 @@ body {
     display: flex;
     list-style: none;
     align-items: center;
-    margin-right: 0px;
+    margin-right: 0;
 
 }
 .linker a {
