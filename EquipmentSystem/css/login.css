@@ -28,27 +28,35 @@ legend {
 }
 ul {
     list-style: none;
+    padding: 0;
 }
 li {
-     margin:20px;
-
- }
+    margin: 20px;
+    display: flex;
+    @media screen and (max-width: 800px) {
+        margin: 10px;
+    }
+}
 li label {
-     width:120px;
+    flex: 1;
     float:left;
     text-align:right;
+    padding: 5px;
     padding-right:8px;
  }
- input {
-        width: 200px;
-        height: 20px;
- }
- #submits{
-     text-align:center;
-     height:30px;
-     margin-top:15px;
- }
- #submit, #hlink {
+input {
+    flex: 2;
+    height: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+}
+#submits{
+    text-align:center;
+    height:30px;
+    margin-top:15px;
+}
+#submit, #hlink {
     width:70%;
     background-color: rgb(8, 139, 129);
     color: white;
@@ -57,5 +65,8 @@ li label {
     font-size: 16px;
     cursor: pointer;
     margin: 8px;
-
+}
+#check {
+    position: relative;
+    right: 0;
 }
