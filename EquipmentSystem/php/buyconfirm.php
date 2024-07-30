@@ -19,8 +19,16 @@ if (!mysqli_connect_errno()) {
                 array_push($arr, $item);
             } else {
                 // Borrow-able
-                $sql = "UPDATE `equip` SET `equip_status` = '2' WHERE `equip_id` = '$item'";
-                $result = mysqli_query($link, $sql);
+                $quantitysql = "SELECT `quantity` FROM `equip` WHERE `equip_id` = '$item'";
+                $quantity = mysqli_query($link, $quantitysql);
+                $q = mysqli_fetch_array($quantity);
+                if ($q[0] == 1) {
+                    $sql = "UPDATE `equip` SET `equip_status` = '2', `quantity` = 0 WHERE `equip_id` = '$item'";
+                    $result = mysqli_query($link, $sql);
+                } else {
+                    $sql = "UPDATE `equip` SET `quantity` = `quantity` - 1 WHERE `equip_id` = '$item'";
+                    $result = mysqli_query($link, $sql);
+                }
                 if ($result) {
                     $current = new DateTime();
                     $current = $current->format("Y-m-d H:i:s");
