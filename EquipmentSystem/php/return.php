@@ -12,14 +12,24 @@ if (mysqli_connect_errno()) {
         $sql = "DELETE FROM `rent` WHERE `equip_id` = '$eqid' AND `user_id` = '$userid'";
         $result = mysqli_query($link, $sql);
         if ($result) {
-            $sql2 = "UPDATE `equip` SET `equip_status` = '1' WHERE `equip_id` = '$eqid'";
+            // Update the status of the equipment
+            $quantitysql = "SELECT `quantity` FROM `equip` WHERE `equip_id` = '$eqid'";
+            $quantityresult = mysqli_query($link, $quantitysql);
+            $quantityrow = mysqli_fetch_array($quantityresult);
+            if ($quantityrow[0] == 0) {
+                $sql2 = "UPDATE `equip` SET `equip_status` = '1', `quantity` = 1 WHERE `equip_id` = '$eqid'";
+            } else {
+                $sql2 = "UPDATE `equip` SET `quantity` = `quantity` + 1 WHERE `equip_id` = '$eqid'";
+            }
             $result2 = mysqli_query($link, $sql2);
             if ($result2) {
                 $data2 = mysqli_fetch_assoc($dataresult);
                 $due = $data2['due_date'];
                 $start = $data2['start_date'];
                 $dueover = ($due < date('Y-m-d H:i:s')) ? 0 : $data2['status'];
-                $sql3 = "INSERT INTO `history` (`user_id`,`equip_id`, `start_date`, `status`) VALUES ('$userid', '$eqid', '$start','$dueover')";
+                $current = new DateTime();
+                $current = $current->format("Y-m-d H:i:s");
+                $sql3 = "INSERT INTO `history` (`user_id`,`equip_id`, `start_date`, `status`, `end_date`) VALUES ('$userid', '$eqid', '$start','$dueover', '$current')";
                 $result3 = mysqli_query($link, $sql3);
                 if ($result3) {
                     echo "1";
