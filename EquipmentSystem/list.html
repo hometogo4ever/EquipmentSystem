@@ -60,10 +60,10 @@
                     const buttons = list[i].equip_status == '1' ? `<div class="buttons"><button class="buyi" name="${list[i].eqid}">구매</button><button class="cart" name="${list[i].eqid}">장바구니</button></div>` : '';
                     $('#result').append(`
                     <div class="equipment">
-                        <div class="imgdesc">
-                            <img src="./php/img/equipment/${picref}" alt="장비이미지">
-                        </div>
                         <div class="desc-wrapper">
+                            <div class="imgdesc">
+                                <img src="./php/img/equipment/${picref}" alt="장비이미지">
+                            </div>
                             <div class="desc">
                                 <p>${list[i].eqname}</p>
                                 <ul>
@@ -74,8 +74,8 @@
                                     <li>특징: ${list[i].feature}</li>
                                 </ul>
                             </div>
-                        ${buttons}
                         </div>
+                        ${buttons}
                     </div>
                                     `);
                 }
