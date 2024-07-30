@@ -114,6 +114,7 @@ aside {
 }
 .equipment {
     display: flex;
+    flex-direction: column;
     border: 2px solid rgb(8, 139, 129);
     margin: 10px 0px;
     padding : 10px;
@@ -126,6 +127,8 @@ aside {
 .equipment .desc-wrapper {
     padding: 10px;
     width: 100%;
+    display: flex;
+    flex-direction: row;
 }
 .equipment .desc ul {
     list-style: none;
@@ -146,10 +149,12 @@ aside {
     background-color: rgb(8, 139, 129);
     color: white;
     border: none;
-    padding: 10px;
-    font-size: 16px;
+    width: 45%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 18px;
     cursor: pointer;
-    margin: 5px;
+    margin: 5px 10px;
 }
 .imgdesc {
     padding: 20px 5px;
