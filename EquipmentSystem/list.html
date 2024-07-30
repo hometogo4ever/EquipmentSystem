@@ -186,9 +186,9 @@
                 page--;
                 if (page < 1) {
                     page = 1;
-                    $('#page').text(page);
-                    fetchResults(currentQuery, page);
                 }
+                $('#page').text(page);
+                fetchResults(currentQuery, page);
             });
             $('#next').click(function() {
                 page++;
