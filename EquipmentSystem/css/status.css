@@ -20,6 +20,7 @@ section > h1 {
 }
 #statuslist > ul > li {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     margin: 20px 0;
     padding: 20px;
@@ -27,9 +28,12 @@ section > h1 {
 }
 .item {
     display: flex;
+    flex-direction: row;
     width : 100%;
     justify-content: space-between;
-    
+    @media screen and (max-width: 800px) {
+        flex-direction: column;
+    }
 }
 .iteminfo {
     width: 80%;
