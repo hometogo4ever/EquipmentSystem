@@ -33,7 +33,7 @@
     background-color: #742424;
     border-radius: 10px;
     font-family: "Nanum Gothic", sans-serif;
-    font-size : 0.9em;
+    font-size : 1.2em;
     @media screen and (max-width: 800px) {
         width: calc(100% - 10px);
         padding: 5px;
@@ -43,7 +43,6 @@
 }
 #section-wrapper > section > #links > ul > li > a > button#home {
     border : 3px solid #671d02;
-    font-size: 1.2em;
     background-color: #f0f0f0;
     @media screen and (max-width: 800px) {
         font-size: 1.0em;
@@ -51,7 +50,6 @@
 }
 #section-wrapper > section > #links > ul > li > a > button#rent {
     border : 3px solid #005a0c;
-    font-size: 1.2em;
     background-color: #f0f0f0;
     @media screen and (max-width: 800px) {
         font-size: 1.0em;
@@ -60,6 +58,9 @@
 #section-wrapper > section > #links > ul > li > a > button#status {
     border : 3px solid #11005e;
     background-color: #f0f0f0;
+    @media screen and (max-width: 800px) {
+        font-size: 1.0em;
+    }
 }
 
 #notice {
