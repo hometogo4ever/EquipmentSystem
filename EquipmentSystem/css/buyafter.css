@@ -11,6 +11,7 @@ section > h2 {
 }
 #afterbuylist > ul{
     margin: 20px;
+    padding: 0px;
     list-style: none;
     font-size: 0.9em;
     text-align: center;
