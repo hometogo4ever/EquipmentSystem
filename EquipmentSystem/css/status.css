@@ -53,8 +53,8 @@ section > h1 {
     color: red;
 }
 .retbutton {
-    width: 100%;
-    padding: 20px 20px;
+    width: 90%;
+    padding: 5% 5%;
     text-align: center;
 }
 button {
