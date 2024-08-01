@@ -57,7 +57,7 @@
                     } else {
                         equip_status = '기타';
                     }
-                    const buttons = list[i].equip_status == '1' ? `<div class="buttons"><button class="buyi" name="${list[i].eqid}">구매</button><button class="cart" name="${list[i].eqid}">장바구니</button></div>` : '';
+                    const buttons = list[i].equip_status == '1' ? `<div class="buttons"><button class="buyi" name="${list[i].eqid}">대여</button><button class="cart" name="${list[i].eqid}">장바구니</button></div>` : '';
                     $('#result').append(`
                     <div class="equipment">
                         <div class="desc-wrapper">
@@ -252,7 +252,7 @@
             <div id="mycart">
                 <h2>장바구니</h2>
                 <p></p>
-                <button id="buy">구매하기</button>
+                <button id="buy">대여하기</button>
             </div>
         </aside>
         <section>
