@@ -10,10 +10,16 @@ $num = $_POST['num'];
 $dept = $_POST['dept'];
 $email = $_POST['email'];
 
-$sql = "insert into `user` values('$id', '$name','$pw', '0', '$num $dept', '$email')";
+$num_dept = $num . " " . $dept;
+$pw = password_hash($pw, PASSWORD_DEFAULT);
+
+$sql = "insert into `user` values(?, ?, ?, '0', ?, ?)";
+$stmt = mysqli_prepare($link, $sql);
+$stmt->bind_param("sssss", $id, $pw, $name, $num_dept, $email);
+$stmt->execute();
+$result = $stmt->get_result();
 echo "$sql<br>";
 
-mysqli_query($link, $sql);
 mysqli_close($link);
 
 ?>
