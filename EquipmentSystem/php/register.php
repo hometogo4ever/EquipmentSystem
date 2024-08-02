@@ -13,6 +13,18 @@ $feature = isset($_POST['feature']) ? $_POST['feature'] : '';
 
 $target_dir = './img/equipment/';
 
+$SIZE_LIMIT = 1024 * 1024 * 10; // 10MB
+
+if ($_FILES['picture']['size'] === 0 || $_FILES['picture']['size'] > $SIZE_LIMIT) {
+    echo "4";
+    exit();
+}
+
+if (preg_match('/^[a-zA-Z0-9_\-.]+\.(jpg|jpeg|heic|webp)$/', $_FILES['picture']['name']) === 0) {
+    echo "4";
+    exit();
+}
+
 $sql1 = "SELECT `loc_id` FROM `loc` WHERE `name` = ?";
 $stmt1 = mysqli_prepare($link, $sql1);
 $stmt1->bind_param("s", $location);
@@ -56,3 +68,4 @@ if (!$result1) {
 // 1: success
 // 2: file upload failed
 // 3: SQL query failed
+// 4: invalid file
