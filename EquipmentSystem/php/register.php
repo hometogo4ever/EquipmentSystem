@@ -13,8 +13,11 @@ $feature = isset($_POST['feature']) ? $_POST['feature'] : '';
 
 $target_dir = './img/equipment/';
 
-$sql1 = "SELECT `loc_id` FROM `loc` WHERE `name` = '$location'";
-$result1 = mysqli_query($link, $sql1);
+$sql1 = "SELECT `loc_id` FROM `loc` WHERE `name` = ?";
+$stmt1 = mysqli_prepare($link, $sql1);
+$stmt1->bind_param("s", $location);
+$stmt1->execute();
+$result1 = $stmt1->get_result();
 if (!$result1) {
     echo "3";
 } else {
