@@ -9,8 +9,11 @@ if (mysqli_connect_errno()) {
 } else {
     $sql = "SELECT `equip`.`name` as `eqname`, `start_date`, `due_date`, `rent`.`status`, `pic_ref`, `equip`.`equip_id` as `eqid`   
             FROM `rent`, `equip`
-            WHERE `rent`.`equip_id` = `equip`.`equip_id` AND `rent`.`user_id` = '$userid'";
-    $result = mysqli_query($link, $sql);
+            WHERE `rent`.`equip_id` = `equip`.`equip_id` AND `rent`.`user_id` = ?";
+    $stmt = mysqli_prepare($link, $sql);
+    $stmt->bind_param("s", $userid);
+    $stmt->execute();
+    $result = $stmt->get_result();
     if (mysqli_num_rows($result) > 0) {
         while ($row = mysqli_fetch_array($result)) {
             array_push($arr, $row);

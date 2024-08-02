@@ -19,6 +19,11 @@ if (mysqli_connect_errno()) {
              JOIN `loc` ON `equip`.`loc_id` = `loc`.`loc_id`
              WHERE 1=1";
 
+    $name = mysqli_real_escape_string($link, $name);
+    $model = mysqli_real_escape_string($link, $model);
+    $category = mysqli_real_escape_string($link, $category);
+    $location = mysqli_real_escape_string($link, $location);
+    $status = mysqli_real_escape_string($link, $status);
     if ($name) {
         $sql .= " AND (`equip`.`name` LIKE '%$name%' OR `equip`.`nickname` LIKE '%$name%')";
     } if ($model) {

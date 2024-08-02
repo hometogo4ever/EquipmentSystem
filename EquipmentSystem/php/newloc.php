@@ -8,9 +8,12 @@ if (mysqli_connect_errno()) {
     $name = $_POST['name'];
     mysqli_set_charset($link,"utf8");
 
-    $sql = "INSERT INTO `loc`(`name`) VALUES ('$name')";
+    $sql = "INSERT INTO `loc`(`name`) VALUES (?)";
 
-    $result = mysqli_query($link, $sql);
+    $stmt = mysqli_prepare($link, $sql);
+    $stmt->bind_param("s", $name);
+    $stmt->execute();
+    $result = $stmt->get_result();
     if ($result) {
         echo "1";
     } else {

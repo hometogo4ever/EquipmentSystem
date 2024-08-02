@@ -8,8 +8,11 @@ if (!mysqli_connect_errno()) {
     $userid = $_POST['user_id'];
     foreach ($items as $item) {
         // To check if the item is already borrowed by someone
-        $sqlcheck = "SELECT `name` FROM `equip` WHERE `equip_id` = '$item' AND `equip_status` = '1'";
-        $resultcheck = mysqli_query($link, $sqlcheck);
+        $sqlcheck = "SELECT `name` FROM `equip` WHERE `equip_id` = ? AND `equip_status` = '1'";
+        $stmt = $link->prepare($sqlcheck);
+        $stmt->bind_param("s", $item);
+        $stmt->execute();
+        $resultcheck = $stmt->get_result();
         if (!$resultcheck) {
             // If that item is already borrowed, return 0
             array_push($arr, $item);
@@ -19,15 +22,24 @@ if (!mysqli_connect_errno()) {
                 array_push($arr, $item);
             } else {
                 // Borrow-able
-                $quantitysql = "SELECT `quantity` FROM `equip` WHERE `equip_id` = '$item'";
-                $quantity = mysqli_query($link, $quantitysql);
-                $q = mysqli_fetch_array($quantity);
+                $quantitysql = "SELECT `quantity` FROM `equip` WHERE `equip_id` = ?";
+                $stmt = $link->prepare($quantitysql);
+                $stmt->bind_param("s", $item);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $q = mysqli_fetch_array($result);
                 if ($q[0] == 1) {
-                    $sql = "UPDATE `equip` SET `equip_status` = '2', `quantity` = 0 WHERE `equip_id` = '$item'";
-                    $result = mysqli_query($link, $sql);
+                    $sql = "UPDATE `equip` SET `equip_status` = '2', `quantity` = 0 WHERE `equip_id` = ?";
+                    $stmt = $link->prepare($sql);
+                    $stmt->bind_param("s", $item);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
                 } else {
-                    $sql = "UPDATE `equip` SET `quantity` = `quantity` - 1 WHERE `equip_id` = '$item'";
-                    $result = mysqli_query($link, $sql);
+                    $sql = "UPDATE `equip` SET `quantity` = `quantity` - 1 WHERE `equip_id` = ?";
+                    $stmt = $link->prepare($sql);
+                    $stmt->bind_param("s", $item);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
                 }
                 if ($result) {
                     $current = new DateTime();
@@ -37,8 +49,11 @@ if (!mysqli_connect_errno()) {
                     $future->modify('+2 day');
                     $future = $future->format('Y-m-d H:i:s');
 
-                    $sql2 = "INSERT INTO `rent` (`equip_id`, `user_id`, `due_date`, `start_date`, `status`) VALUES ('$item', '$userid', '$future','$current', '1')";
-                    $result2 = mysqli_query($link, $sql2);
+                    $sql2 = "INSERT INTO `rent` (`equip_id`, `user_id`, `due_date`, `start_date`, `status`) VALUES (?, ?, ?, ?, '1')";
+                    $stmt = $link->prepare($sql2);
+                    $stmt->bind_param("ssss", $item, $userid, $future, $current);
+                    $stmt->execute();
+                    $result2 = $stmt->get_result();
                     if (!$result2) {
                         array_push($arr, $item);
                     } else {

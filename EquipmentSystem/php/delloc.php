@@ -6,8 +6,11 @@ if (mysqli_connect_errno()) {
 } else {
     $name = $_POST['name'];
 
-    $sql = "DELETE FROM `loc` WHERE `name` = '$name'";
-    $result = mysqli_query($link, $sql);
+    $sql = "DELETE FROM `loc` WHERE `name` = ?";
+    $stmt = mysqli_prepare($link, $sql);
+    $stmt->bind_param("s", $name);
+    $stmt->execute();
+    $result = $stmt->get_result();
     if ($result) {
         echo "1";
     } else {

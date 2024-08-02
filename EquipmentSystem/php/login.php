@@ -6,8 +6,11 @@ mysqli_set_charset($link,"utf8");
 $id = $_POST['id'];
 $pw = $_POST['pw'];
 
-$sql = "SELECT * FROM `user` WHERE `user_id` = '$id' AND `password` = '$pw'";
-$result = mysqli_query($link, $sql);
+$sql = "SELECT * FROM `user` WHERE `user_id` = '$id' AND `password` = ?";
+$stmt = mysqli_prepare($link, $sql);
+$stmt->bind_param("s", $pw);
+$stmt->execute();
+$result = $stmt->get_result();
 if (mysqli_num_rows($result) > 0) {
     echo '1';
     setcookie('user_id', $id, time() + 3600, '/');

@@ -8,8 +8,11 @@ if (mysqli_connect_errno()) {
     $items = $_POST['items'];
     $arr = array();
     foreach ($items as $item) {
-        $sql = "SELECT `name` as `eqname`, `pic_ref` FROM `equip` WHERE `equip_id` = '$item'";
-        $result = mysqli_query($link, $sql);
+        $sql = "SELECT `name` as `eqname`, `pic_ref` FROM `equip` WHERE `equip_id` = ?";
+        $stmt = mysqli_prepare($link, $sql);
+        $stmt->bind_param("s", $item);
+        $stmt->execute();
+        $result = $stmt->get_result();
         if ($result) {
             $ret = mysqli_fetch_array($result);
             array_push($arr, $ret);
