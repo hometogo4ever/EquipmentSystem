@@ -6,18 +6,22 @@ mysqli_set_charset($link,"utf8");
 $id = $_POST['id'];
 $pw = $_POST['pw'];
 
-$sql = "SELECT * FROM `user` WHERE `user_id` = '$id'";
+$sql = "SELECT * FROM `user` WHERE `user_id` = ?";
 $stmt = mysqli_prepare($link, $sql);
-mysqli_stmt_bind_param($stmt, "s", $pw);
+mysqli_stmt_bind_param($stmt, "s", $id);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 $user = mysqli_fetch_array($result);
 
-$password = $user['password'];
+if ($user) {
+    $password = $user['password'];
 
-if (password_verify($pw, $password) || $pw === $password) {
-    echo '1';
-    setcookie('user_id', $id, time() + 3600, '/');
+    if (password_verify($pw, $password) || $pw === $password) {
+        echo '1';
+        setcookie('user_id', $id, time() + 3600, '/');
+    } else {
+        echo '0';
+    }
 } else {
     echo '0';
 }
