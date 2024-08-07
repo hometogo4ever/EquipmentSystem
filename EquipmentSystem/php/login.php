@@ -8,9 +8,9 @@ $pw = $_POST['pw'];
 
 $sql = "SELECT * FROM `user` WHERE `user_id` = '$id'";
 $stmt = mysqli_prepare($link, $sql);
-$stmt->bind_param("s", $pw);
-$stmt->execute();
-$result = $stmt->get_result();
+mysqli_stmt_bind_param($stmt, "s", $pw);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
 $user = mysqli_fetch_array($result);
 
 $password = $user['password'];
