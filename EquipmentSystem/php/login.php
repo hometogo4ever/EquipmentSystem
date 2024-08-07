@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 $link = mysqli_connect("localhost", "hometogo0625", "sessy5295!!", "hometogo0625");
 mysqli_set_charset($link,"utf8");
 
@@ -18,7 +18,7 @@ if ($user) {
 
     if (password_verify($pw, $password) || $pw === $password) {
         echo '1';
-        setcookie('user_id', $id, time() + 3600, '/');
+        $_SESSION['user_id'] = $id;
     } else {
         echo '0';
     }
