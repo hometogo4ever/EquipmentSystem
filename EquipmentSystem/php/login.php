@@ -1,6 +1,8 @@
 <?php
 
-$link = mysqli_connect("localhost", "hometogo0625", "sessy5295!!", "hometogo0625");
+include 'property.php';
+$link = mysqli_connect($DB_HOST, $DB_USER, $DB_PASSWORD, $DB_DATABASE);
+
 mysqli_set_charset($link,"utf8");
 
 $id = $_POST['id'];
