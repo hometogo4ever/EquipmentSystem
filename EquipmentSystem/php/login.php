@@ -1,7 +1,6 @@
 <?php
+session_start();
 
-include 'property.php';
-$link = mysqli_connect($DB_HOST, $DB_USER, $DB_PASSWORD, $DB_DATABASE);
 include 'property.php';
 $link = mysqli_connect($DB_HOST, $DB_USER, $DB_PASSWORD, $DB_DATABASE);
 
@@ -22,7 +21,7 @@ if ($user) {
 
     if (password_verify($pw, $password) || $pw === $password) {
         echo '1';
-        setcookie('user_id', $id, time() + 3600, '/');
+        $_SESSION['user_id'] = $id;
     } else {
         echo '0';
     }
