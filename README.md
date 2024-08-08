@@ -12,6 +12,10 @@ http://hometogo0625.dothome.co.kr/EquipmentSystem/
 ## Log
 ### V1.0
 
+### V1.1
+Security Operarions
+Bug Fixed
+
 ## Feature
 
 - Manual user Register/Login
