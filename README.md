@@ -1,6 +1,7 @@
 # Equipment System
 Equipment Rental System for AAA 89th
-http://hometogo0625.dothome.co.kr/EquipmentSystem/
+
+https://🔭.snuaaa.net
 
 ## Environment
 - Server hosted by dothome.co.kr
