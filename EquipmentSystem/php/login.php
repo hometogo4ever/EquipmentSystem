@@ -2,6 +2,8 @@
 
 include 'property.php';
 $link = mysqli_connect($DB_HOST, $DB_USER, $DB_PASSWORD, $DB_DATABASE);
+include 'property.php';
+$link = mysqli_connect($DB_HOST, $DB_USER, $DB_PASSWORD, $DB_DATABASE);
 
 mysqli_set_charset($link,"utf8");
 
