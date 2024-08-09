@@ -25,19 +25,3 @@ export function checkLoginStatus() {
       }
   });
 }
-
-export function checkLoginStatus2() {
-    $.ajax({
-        url: 'php/getUserId.php',
-        type: 'POST',
-        success: function(data) {
-            if (data == 0) {
-                alert('로그인이 필요합니다.');
-                window.location.href = 'login.html';
-            }
-        },
-        error: function() {
-            alert('로그인 상태 확인 실패');
-        }
-    });
-}

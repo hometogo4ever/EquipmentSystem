@@ -9,7 +9,25 @@
     <script src="js/jquery.js"></script>
     <script type="module">
         import { checkLoginStatus, checkLoginStatus2 } from './js/login.js';
+        var user_id = 0;
         $(function() {
+            function checkLoginStatus2() {
+                $.ajax({
+                    url: 'php/getUserId.php',
+                    type: 'POST',
+                    success: function(data) {
+                        if (data == 0) {
+                            alert('로그인이 필요합니다.');
+                            window.location.href = 'login.html';
+                        } else {
+                            user_id = data;
+                        }
+                    },
+                    error: function() {
+                        alert('로그인 상태 확인 실패');
+                    }
+                });
+            }
             function getCookie(name) {
                 let cookieValue = null;
                 if (document.cookie && document.cookie !== '') {
@@ -62,7 +80,7 @@
             }
             $('#confirm').click(function() {
                 const buylist = getCookie('buylist');
-                const isLoggedIn = getCookie('user_id');
+                const isLoggedIn = user_id;
                 const arr = buylist.split(',');
                 $.ajax({
                     url: 'php/buyconfirm.php',
