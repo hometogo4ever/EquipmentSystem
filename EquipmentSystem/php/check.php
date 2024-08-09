@@ -8,9 +8,9 @@ $id = $_POST['id'];
 
 $sql = "SELECT * FROM `user` WHERE `user_id` = ?";
 $stmt = mysqli_prepare($link, $sql);
-$stmt->bind_param("s", $id);
-$stmt->execute();
-$result = $stmt->get_result();
+mysqli_stmt_bind_param($stmt, "s", $id);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
 
 if (mysqli_num_rows($result) > 0) {
     echo "1";
