@@ -51,8 +51,7 @@ if (!mysqli_connect_errno()) {
                     $sql2 = "INSERT INTO `rent` (`equip_id`, `user_id`, `due_date`, `start_date`, `status`) VALUES (?, ?, ?, ?, '1')";
                     $stmt = mysqli_prepare($link, $sql2);
                     mysqli_stmt_bind_param($stmt, "ssss", $item, $userid, $future, $current);
-                    mysqli_stmt_execute($stmt);
-                    $result2 = mysqli_stmt_get_result($stmt);
+                    $result2 = mysqli_stmt_execute($stmt);
                     if (!$result2) {
                         array_push($arr, $item);
                     } else {

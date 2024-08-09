@@ -9,27 +9,24 @@
     <script src="js/jquery.js"></script>
     <script type="module">
         import { checkLoginStatus } from './js/login.js';
+        var user_id = 0;
         $(function() {
-            function getCookie(name) {
-                let cookieValue = null;
-                if (document.cookie && document.cookie !== '') {
-                    const cookies = document.cookie.split(';');
-                    for (let i = 0; i < cookies.length; i++) {
-                        const cookie = cookies[i].trim();
-                        if (cookie.substring(0, name.length + 1) === name + '=') {
-                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                            break;
+            function checkLoginStatus2() {
+                $.ajax({
+                    url: 'php/getUserId.php',
+                    type: 'POST',
+                    success: function(data) {
+                        if (data == 0) {
+                            alert('로그인이 필요합니다.');
+                            window.location.href = 'login.html';
+                        } else {
+                            user_id = data;
                         }
+                    },
+                    error: function() {
+                        alert('로그인 상태 확인 실패');
                     }
-                }
-                return cookieValue;
-            }
-            function checkLoginStatus() {
-                const isLoggedIn = getCookie('user_id');
-                if (!isLoggedIn) {
-                    alert('로그인이 필요합니다.');
-                    window.location.href = 'login.html';
-                } 
+                });
             }
             function printdata(list) {
                 $('#statuslist > ul').empty;
@@ -55,7 +52,6 @@
                 }
             }
             function getdata() {
-                const user_id = getCookie('user_id');
                 $.ajax({
                     url:'php/getstatus.php',
                     type:'post',
@@ -75,7 +71,6 @@
             }
             $(document).on('click', '#return', function() {
                 const eqid = $(this).attr('name');
-                const user_id = getCookie('user_id');
                 $.ajax({
                     url: 'php/return.php',
                     type: 'post', 
@@ -98,6 +93,7 @@
                 });
             });
             checkLoginStatus();
+            checkLoginStatus2();
             getdata();
         });
     </script>
