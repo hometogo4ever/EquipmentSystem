@@ -3,7 +3,7 @@ export function checkLoginStatus() {
       url: 'php/getUserId.php',
       type: 'POST',
       success: function(data) {
-        if (!data) {
+        if (data == 0) {
             $('#container > header > #account').html(
                 `<p>로그인이 필요합니다.</p>
                 <ul>
