@@ -7,7 +7,8 @@
     <link href="./css/status.css" rel="stylesheet" type="text/css"/>
     <title>나의 장비대여 현황</title>
     <script src="js/jquery.js"></script>
-    <script>
+    <script type="module">
+        import { checkLoginStatus } from './js/login.js';
         $(function() {
             function getCookie(name) {
                 let cookieValue = null;
