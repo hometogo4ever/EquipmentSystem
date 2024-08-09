@@ -19,7 +19,7 @@ if ($user) {
 
     if (password_verify($pw, $password) || $pw === $password) {
         echo '1';
-        $_SESSION['user_id'] = $id;
+        setcookie('user_id', $id, time() + 3600, '/');
     } else {
         echo '0';
     }

@@ -24,6 +24,13 @@
                 }
                 return cookieValue;
             }
+            function checkLoginStatus() {
+                const isLoggedIn = getCookie('user_id');
+                if (!isLoggedIn) {
+                    alert('로그인이 필요합니다.');
+                    window.location.href = 'login.html';
+                } 
+            }
             function printdata(list) {
                 $('#statuslist > ul').empty;
                 for (var i=0; i<list.length; i++) {
