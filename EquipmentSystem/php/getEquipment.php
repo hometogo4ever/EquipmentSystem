@@ -2,7 +2,6 @@
 
 include 'property.php';
 $link = mysqli_connect($DB_HOST, $DB_USER, $DB_PASSWORD, $DB_DATABASE);
-
 if (mysqli_connect_errno()) {
     echo "2";
 } else {
