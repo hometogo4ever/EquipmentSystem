@@ -33,16 +33,14 @@ if (!mysqli_connect_errno()) {
                     $sql = "UPDATE `equip` SET `equip_status` = '2', `quantity` = 0 WHERE `equip_id` = ?";
                     $stmt = mysqli_prepare($link, $sql);
                     mysqli_stmt_bind_param($stmt, "s", $item);
-                    mysqli_stmt_execute($stmt);
-                    $result = mysqli_stmt_get_result($stmt);
+                    $exresult = mysqli_stmt_execute($stmt);
                 } else {
                     $sql = "UPDATE `equip` SET `quantity` = `quantity` - 1 WHERE `equip_id` = ?";
                     $stmt = mysqli_prepare($link, $sql);
                     mysqli_stmt_bind_param($stmt, "s", $item);
-                    mysqli_stmt_execute($stmt);
-                    $result = mysqli_stmt_get_result($stmt);
+                    $exresult = mysqli_stmt_execute($stmt);
                 }
-                if ($result) {
+                if ($exresult) {
                     $current = new DateTime();
                     $current = $current->format("Y-m-d H:i:s");
 
