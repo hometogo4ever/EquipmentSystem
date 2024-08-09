@@ -1,4 +1,4 @@
-export function getCookie(name) {
+function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {
         const cookies = document.cookie.split(';');
@@ -12,30 +12,3 @@ export function getCookie(name) {
     }
     return cookieValue;
 }
-
-export function getUserId() {
-    return new Promise((resolve, reject) => {
-      $.ajax({
-        url: 'php/getUserId.php',
-        type: 'POST',
-        success: function(data) {
-          resolve(data);
-        },
-        error: function() {
-          reject(-1);
-        }
-      });
-    });
-}
-
-export function getUserid() {
-    const userId = getUserId()
-    .then(userId => {
-      const userid = userId;
-    })
-    .catch(error => {
-      const userid = -1;
-    });
-    return userid;
-}
-  

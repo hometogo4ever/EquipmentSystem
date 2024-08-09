@@ -7,8 +7,7 @@
 </head>
 <body>
     <?php
-    session_start();
-    session_destroy();
+    setcookie('user_id', $id, time() - 3600, '/');
     header('Location: ../index.html');
     ?>
 </body>
