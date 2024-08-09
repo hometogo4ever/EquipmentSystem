@@ -42,7 +42,7 @@ if (!$result1) {
                 VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = mysqli_prepare($link, $sql);
         $stmt->bind_param("ssssssss", $name, $locId, $status, $basename, $category, $model, $nickname, $feature);
-        $result2 = $stmt->execute()
+        $result2 = $stmt->execute();
         if ($result2) {
             // SQL 쿼리가 성공한 후 파일 업로드 로직 실행
             if ($_FILES['picture']['size'] > 0) {
