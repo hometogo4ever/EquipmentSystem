@@ -8,41 +8,6 @@
     <script type="module">
         import { checkLoginStatus } from './js/login.js';
         $(function() {
-            function getCookie(name) {
-                let cookieValue = null;
-                if (document.cookie && document.cookie !== '') {
-                    const cookies = document.cookie.split(';');
-                    for (let i = 0; i < cookies.length; i++) {
-                        const cookie = cookies[i].trim();
-                        if (cookie.substring(0, name.length + 1) === name + '=') {
-                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                            break;
-                        }
-                    }
-                }
-                return cookieValue;
-            }
-
-            function checkLoginStatus() {
-                const isLoggedIn = getCookie('user_id');
-                if (!isLoggedIn) {
-                    $('#container > header > #account').html(
-                        `<p>로그인이 필요합니다.</p>
-                        <ul>
-                            <li><a href="login.html"><button>로그인</button></a></li>
-                            <li><a href="join.html"><button>회원가입</button></a></li>
-                        </ul>`
-                    );
-                } else {
-                    $('#container > header > #account').html(
-                        `<p>환영합니다, ${isLoggedIn}님!</p>
-                        <ul>
-                            <li><a href="php/logout.php"><button id="logout">로그아웃</button></a></li>
-                            <li><a href="mypage.html"><button>마이페이지</button></a></li>
-                        </ul>`);
-                }
-            }
-
             checkLoginStatus();
     });
     </script>
