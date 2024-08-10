@@ -12,7 +12,6 @@ if (mysqli_connect_errno()) {
             FROM `rent`, `equip`
             WHERE `rent`.`equip_id` = `equip`.`equip_id` AND `rent`.`user_id` = ?";
     $stmt = mysqli_prepare($link, $sql);
-    $userid = $_POST['user_id'];
     $stmt->bind_param("s", $userid);
     $stmt->execute();
     $result = $stmt->get_result();
