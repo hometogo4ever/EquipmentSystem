@@ -21,6 +21,22 @@
                             window.location.href = 'login.html';
                         } else {
                             user_id = data;
+                            $.ajax({
+                                url:'php/getstatus.php',
+                                type:'post',
+                                data: {
+                                    user_id: user_id
+                                },
+                                success: function(data) {
+                                    console.log(user_id);
+                                    console.log(data);
+                                    const list = JSON.parse(data);
+                                    printdata(list);
+                                }, error: function(xhr, status, error) {
+                                    console.error(xhr, status, error);
+                                    alert('서버와의 통신에 실패했습니다.');
+                                }
+                            });
                         }
                     },
                     error: function() {
@@ -51,25 +67,6 @@
                     );
                 }
             }
-            function getdata() {
-                $.ajax({
-                    url:'php/getstatus.php',
-                    type:'post',
-                    data: {
-                        user_id: user_id
-                    },
-                    success: function(data) {
-                        console.log(user_id);
-                        console.log(data);
-                        const list = JSON.parse(data);
-                        printdata(list);
-                    }, error: function(xhr, status, error) {
-                        console.error(xhr, status, error);
-                        alert('서버와의 통신에 실패했습니다.');
-                    }
-
-                });
-            }
             $(document).on('click', '#return', function() {
                 const eqid = $(this).attr('name');
                 $.ajax({
@@ -95,7 +92,6 @@
             });
             checkLoginStatus();
             checkLoginStatus2();
-            getdata();
         });
     </script>
 </head>
