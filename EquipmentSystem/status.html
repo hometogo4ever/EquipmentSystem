@@ -21,7 +21,6 @@
                             window.location.href = 'login.html';
                         } else {
                             user_id = data;
-                            console.log(user_id);
                         }
                     },
                     error: function() {
@@ -60,6 +59,7 @@
                         user_id: user_id
                     },
                     success: function(data) {
+                        console.log(user_id);
                         console.log(data);
                         const list = JSON.parse(data);
                         printdata(list);

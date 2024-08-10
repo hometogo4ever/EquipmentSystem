@@ -15,13 +15,7 @@ if (mysqli_connect_errno()) {
     $stmt->bind_param("s", $userid);
     $stmt->execute();
     $result = $stmt->get_result();
-    if (mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_array($result)) {
-            array_push($arr, $row);
-        }
-        echo json_encode($arr);
-    } else {
-        echo json_encode($arr);
-    }
+    $arr = $result->fetch_all(MYSQLI_ASSOC);
+    echo json_encode($arr);
 }
 ?>
