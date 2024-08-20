@@ -16,14 +16,15 @@ $pw = password_hash($pw, PASSWORD_DEFAULT);
 
 $sql = "insert into `user` values(?, ?, ?, '0', ?, ?)";
 $stmt = mysqli_prepare($link, $sql);
-$stmt->bind_param("sssss", $id, $pw, $name, $num_dept, $email);
+mysqli_stmt_bind_param($stmt, "sssss", $id, $pw, $name, $num_dept, $email);
 $stmt->execute();
 $result = $stmt->get_result();
-if ($result) {
+if (mysqli_stmt_execute($stmt)) {
     echo "1";
 } else {
     echo "2";
 }
+mysqli_stmt_close($stmt);
 mysqli_close($link);
 
 ?>
