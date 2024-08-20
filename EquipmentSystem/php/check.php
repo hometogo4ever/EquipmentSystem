@@ -18,7 +18,7 @@ if (mysqli_num_rows($result) > 0) {
     echo "0";
 }
 
-mysqli_query($link, $sql);
+mysqli_stmt_close($stmt);
 mysqli_close($link);
 
 ?>
