@@ -50,6 +50,7 @@
                 var dept = $('#dept').val();
                 var email = $('#email').val();
                 if (!validatePassword(pw, pw2)) {
+                    alert('비밀번호가 조건을 만족하지 않습니다.');
                     e.preventDefault();
                     return;
                 }
@@ -165,7 +166,7 @@
                         </ul>
                     </fieldset>
                     <div id="submits">
-                    <button type="submit" id="submitb">회원가입</button>
+                        <button type="submit" id="submitb">회원가입</button>
                     </div>
                 </form>
             </section>
