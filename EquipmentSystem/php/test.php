@@ -14,9 +14,9 @@ $email = $_POST['email'];
 $num_dept = $num . " " . $dept;
 $pw = password_hash($pw, PASSWORD_DEFAULT);
 
-$sql = "insert into `user` values (?, ?, ?, '0', ?, ?)";
+$sql = "INSERT INTO `user` (`user_id`, `name`, `password`, `user_status`, `user_info`, `email`) VALUES (?, ?, ?, '0', ?, ?)";
 $stmt = mysqli_prepare($link, $sql);
-mysqli_stmt_bind_param($stmt, "sssss", $id, $pw, $name, $num_dept, $email);
+mysqli_stmt_bind_param($stmt, "sssss", $id, $name, $pw, $num_dept, $email);
 if (mysqli_stmt_execute($stmt)) {
     echo "1";
 } else {
