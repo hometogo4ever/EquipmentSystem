@@ -19,8 +19,11 @@ $stmt = mysqli_prepare($link, $sql);
 $stmt->bind_param("sssss", $id, $pw, $name, $num_dept, $email);
 $stmt->execute();
 $result = $stmt->get_result();
-echo "$sql<br>";
-
+if ($result) {
+    echo "1";
+} else {
+    echo "2";
+}
 mysqli_close($link);
 
 ?>

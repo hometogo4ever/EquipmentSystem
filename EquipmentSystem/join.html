@@ -67,8 +67,12 @@
                     },
                     success: function(data) {
                         console.log(data);
-                        alert('회원가입 완료');
-                        window.location.href = 'login.html';
+                        if (data == 1) {
+                            alert('회원가입 완료');
+                            window.location.href = 'login.html';
+                        } else {
+                            alert('회원가입 실패');
+                        }
                     }
             
                 });
@@ -120,6 +124,7 @@
         <div id="section-wrapper">
             <section>
                 <h1>회원가입</h1>
+                <button type="submit" id="check">중복확인</button> <!-- 중복확인 버튼을 누르면 중복확인을 할 수 있도록 함 -->
                 <form class=""> <!-- form 태그를 이용하여 데이터를 전송할 수 있도록 함 -->
                     <fieldset>
                             <legend>아이디입력</legend>
@@ -127,7 +132,6 @@
                             <li>
                                 <label for="#id">아이디</label>
                                 <input type="text" id="id" name="id" required>
-                                <button type="submit" id="check">중복확인</button> <!-- 중복확인 버튼을 누르면 중복확인을 할 수 있도록 함 -->
                             </li>
                             <li>
                                 <label for="#pw">비밀번호</label>
