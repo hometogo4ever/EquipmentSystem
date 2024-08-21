@@ -22,7 +22,6 @@ if (mysqli_stmt_execute($stmt)) {
 } else {
     echo "2";
 }
-mysqli_stmt_close($stmt);
 mysqli_close($link);
 
 ?>
