@@ -10,13 +10,13 @@ function loadUser($link, $id){
     return $user;
 }
 function user_info($userInfo){
-    return $userInfo->col_no." ".$userInfo->major;
-    /*return json_encode(
+    //return $userInfo->col_no." ".$userInfo->major;
+    return json_encode(
         (object) array(
             "col_no" => $userInfo->col_no,
             "major" => $userInfo->major
         )
-    );*/
+    );
 }
 function createUser($link, $userInfo){
     $sql = "INSERT INTO `user` (`user_id`, `name`, `password`, `user_status`, `user_info`, `email`) VALUES (?, ?, ?, '0', ?, ?)";
