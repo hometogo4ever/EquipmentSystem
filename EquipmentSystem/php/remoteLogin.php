@@ -1,7 +1,7 @@
 <?php
     include 'property.php';
 
-    function getRemoteUserInfo($token, $REMOTE_HOST){
+    function getUserInfo($token, $REMOTE_HOST){
         $url = $REMOTE_HOST."/api/userinfo/";
         $headers[] = 'Content-Type: application/json';
         $headers[] = 'Authorization: Bearer '.$token;
@@ -46,7 +46,7 @@
         $body_decode = json_decode($response_body);
 
         if($body_decode->sucess){
-            $userInfo = getRemoteUserInfo($body_decode->token, $REMOTE_HOST);
+            $userInfo = getUserInfo($body_decode->token, $REMOTE_HOST);
             return (object) array('success' => true, 'userInfo' => $userInfo, 'token' => $body_decode->token);
         }
         else{
