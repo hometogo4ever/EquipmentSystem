@@ -64,7 +64,6 @@ if (!mysqli_connect_errno()) {
         } 
     }
     $num = count($arr);
-    echo $num;
     if ($num > 0) {
         $string = implode(",", $arr);
         setcookie("buylist", $string, time() + 3600,"/");
@@ -76,6 +75,7 @@ if (!mysqli_connect_errno()) {
         setcookie("afterbuy", $rett, time() + 3600, "/");
     }
     mysqli_close($link);
+    echo $num;
 } else {
     echo -1;
 }
