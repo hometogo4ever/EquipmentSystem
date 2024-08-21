@@ -11,7 +11,7 @@ $num = $_POST['num'];
 $dept = $_POST['dept'];
 $email = $_POST['email'];
 
-$num_dept = $num . " " . $dept;
+$num_dept = $num . ' ' . $dept;
 $pw = password_hash($pw, PASSWORD_DEFAULT);
 
 $sql = "INSERT INTO `user` (`user_id`, `name`, `password`, `user_status`, `user_info`, `email`) VALUES (?, ?, ?, '0', ?, ?)";
