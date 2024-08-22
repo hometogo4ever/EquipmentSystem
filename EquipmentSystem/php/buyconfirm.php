@@ -29,7 +29,7 @@ if (!mysqli_connect_errno()) {
                 mysqli_stmt_execute($stmt);
                 $result = mysqli_stmt_get_result($stmt);
                 $q = mysqli_fetch_array($result);
-                if ($q[0] == 1) {
+                if ($q[0] <= 1) {
                     $sql = "UPDATE `equip` SET `equip_status` = '2', `quantity` = 0 WHERE `equip_id` = ?";
                     $stmt = mysqli_prepare($link, $sql);
                     mysqli_stmt_bind_param($stmt, "s", $item);
@@ -64,7 +64,6 @@ if (!mysqli_connect_errno()) {
         } 
     }
     $num = count($arr);
-    echo $num;
     if ($num > 0) {
         $string = implode(",", $arr);
         setcookie("buylist", $string, time() + 3600,"/");
@@ -76,6 +75,8 @@ if (!mysqli_connect_errno()) {
         setcookie("afterbuy", $rett, time() + 3600, "/");
     }
     mysqli_close($link);
+    echo $num;
+
 } else {
     echo -1;
 }

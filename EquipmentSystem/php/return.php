@@ -25,10 +25,10 @@ if (mysqli_connect_errno()) {
             $quantitystmt->execute();
             $quantityresult = $quantitystmt->get_result();
             $quantityrow = mysqli_fetch_array($quantityresult);
-            if ($quantityrow[0] == 0) {
-                $sql2 = "UPDATE `equip` SET `equip_status` = '1', `quantity` = 1 WHERE `equip_id` = ?";
+            if ($quantityrow[0] <= 0) {
+                $sql2 = "UPDATE `equip` SET `equip_status` = '1', `quantity` = 1 WHERE `equip_id` = '$eqid'";
             } else {
-                $sql2 = "UPDATE `equip` SET `quantity` = `quantity` + 1 WHERE `equip_id` = ?";
+                $sql2 = "UPDATE `equip` SET `quantity` = `quantity` + 1 WHERE `equip_id` = '$eqid'";
             }
             $result2 = mysqli_query($link, $sql2);
             if ($result2) {
