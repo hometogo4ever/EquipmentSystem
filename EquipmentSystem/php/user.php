@@ -15,7 +15,8 @@ function user_info($userInfo){
         (object) array(
             "col_no" => $userInfo->col_no,
             "major" => $userInfo->major
-        )
+        ),
+        JSON_UNESCAPED_UNICODE
     );
 }
 function createUser($link, $userInfo){
