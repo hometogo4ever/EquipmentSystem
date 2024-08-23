@@ -117,8 +117,10 @@
             }); 
             $(document).on('click', '#delete', function() {
                 const item = $(this).attr('name');
-                deleteFromCookie(item, 'buylist');
-                deleteFromCookie(item, 'shoppinglist');
+                const buylist = getCookie('buylist');
+                const shoppinglist = getCookie('shoppinglist');
+                deleteFromCookie(item, buylist);
+                deleteFromCookie(item, shoppinglist);
                 window.location.href = 'buy.html';
             });
             checkLoginStatus2();
