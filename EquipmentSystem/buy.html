@@ -78,6 +78,12 @@
                     }
                 });
             }
+            function deleteFromCookie(item, cookie) {
+                const arr = cookie.split(',');
+                const index = arr.indexOf(item);
+                arr.splice(index, 1);
+                document.cookie = `${cookie}=${arr}`;
+            }
             $('#confirm').click(function() {
                 const buylist = getCookie('buylist');
                 const isLoggedIn = user_id;
@@ -106,12 +112,8 @@
                 });
             }); 
             $(document).on('click', '#delete', function() {
-                const item = $(this).attr('name');
-                const buylist = getCookie('buylist');
-                const arr = buylist.split(',');
-                const index = arr.indexOf(item);
-                arr.splice(index, 1);
-                document.cookie = `buylist=${arr}`;
+                deleteFromCookie(item, 'buylist');
+                deleteFromCookie(item, 'shoppinglist');
                 window.location.href = 'buy.html';
             });
             checkLoginStatus2();
