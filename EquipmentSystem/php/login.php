@@ -63,7 +63,7 @@ else{
 
 $_SESSION['userId'] = $id;
 //$_SESSION['token'] = $remoteLoginResult->token;
-setcookie('token', $remoteLoginResult->token, time() + 3600, '/');
+setcookie('token', $remoteLoginResult->token, time() + 3600, '/EquipmentSystem');
 
 echo "1";
 

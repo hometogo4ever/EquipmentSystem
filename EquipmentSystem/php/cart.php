@@ -15,7 +15,7 @@ if (isset($_COOKIE['shoppinglist'])) {
     $shoppinglist = $eqid;
 }
 
-setcookie('shoppinglist', $shoppinglist, time() + 3600, '/');
+setcookie('shoppinglist', $shoppinglist, time() + 3600, '/EquipmentSystem');
 echo '1';
 
 ?>
