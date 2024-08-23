@@ -7,7 +7,45 @@
 </head>
 <script src="js/jquery.js"></script>
 <script type="module">
+    var user_id = 0;
     $(function() {
+        function checkLoginStatus2() {
+            $.ajax({
+                url: 'php/getUserId.php',
+                type: 'POST',
+                success: function(data) {
+                    if (data == 0) {
+                        alert('로그인이 필요합니다.');
+                        window.location.href = 'login.html';
+                    } else {
+                        user_id = data;
+                    }
+                },
+                error: function() {
+                    alert('로그인 상태 확인 실패');
+                }
+            });
+        }
+        function checkAuthorize() {
+            $.ajax({
+                url: 'php/getUserType.php',
+                type: 'POST',
+                data: {
+                    user_id: user_id
+                },
+                success: function(data) {
+                    if (data == 0) {
+                        alert('권한이 없습니다.');
+                        window.location.href = 'index.html';
+                    }
+                },
+                error: function() {
+                    alert('권한 확인 실패');
+                }
+            });
+        }
+        checkLoginStatus2();
+        checkAuthorize();
         $.ajax({
             url: 'php/getEquipment.php',
             type: 'post',
