@@ -82,6 +82,10 @@
                 const arr = cookie.split(',');
                 const index = arr.indexOf(item);
                 arr.splice(index, 1);
+                if (arr.length == 0 || arr[0] == '' || arr[0] == ',') {
+                    document.cookie = `${cookie}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+                    return;
+                }
                 document.cookie = `${cookie}=${arr}`;
             }
             $('#confirm').click(function() {
