@@ -79,7 +79,8 @@
                 });
             }
             function deleteFromCookie(item, cookie) {
-                const arr = cookie.split(',');
+                const cookiecontent = getCookie(cookie);
+                const arr = cookiecontent.split(',');
                 const index = arr.indexOf(item);
                 arr.splice(index, 1);
                 if (arr.length == 0 || arr[0] == '' || arr[0] == ',') {
@@ -117,10 +118,8 @@
             }); 
             $(document).on('click', '#delete', function() {
                 const item = $(this).attr('name');
-                const buylist = getCookie('buylist');
-                const shoppinglist = getCookie('shoppinglist');
-                deleteFromCookie(item, buylist);
-                deleteFromCookie(item, shoppinglist);
+                deleteFromCookie(item, 'buylist');
+                deleteFromCookie(item, 'shoppinglist');
                 window.location.href = 'buy.html';
             });
             checkLoginStatus2();
