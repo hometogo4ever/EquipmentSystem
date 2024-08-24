@@ -140,7 +140,7 @@
                     }
                 ).sliceData;
                 
-                let uploadState = Array.from({length: sliceData.size}).fill(false);
+                let uploadState = Array.from({length: sliceData.length}).fill(false);
                 const uploadPromises = sliceData.map(
                     async ({start, end}, index)=>{
                         const part = file.slice(start, end);
