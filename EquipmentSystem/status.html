@@ -68,8 +68,8 @@
                     );
                 }
             }
-            $(document).on('click', '#return', function() {
-                const eqid = $(this).attr('name');
+
+            function reportReturn(eqid){
                 $.ajax({
                     url: 'php/return.php',
                     type: 'post', 
@@ -90,7 +90,99 @@
                         alert('서버와의 통신에 실패했습니다.');
                     }
                 });
+            }
+
+            let eqid = null;
+            let files = new Map();
+            function setEqid(newEqid){
+                eqid = newEqid;
+            }
+            function setFile(eqid, newFile){
+                files.set(eqid, newFile);
+                renderModalContent($('#modalContent'));
+            }
+            
+            
+            
+            function onModalContentClick(){
+                const modalContent = $(this);
+                const fileBrowser = $("#fileBrowser").clone();
+                fileBrowser.off("change");
+                fileBrowser.on("change", (e)=>{
+                    const targetFile = e.target.files[0];
+                    try{
+                        if(!targetFile){
+                            throw new Error("no file");
+                        }
+                        if(targetFile.type !=="image/jpeg"){
+                            throw new Error("not jpeg");
+                        }
+                        setFile(eqid, targetFile);
+                    }
+                    catch(e){
+                        console.log(e);
+                    }
+                });
+                fileBrowser.click();
+            }
+            function renderModalContent(modalContent){
+                console.log(eqid);
+                const file = files.get(eqid)??null;
+                if(file === null){
+                    modalContent.children("*").remove();
+                    modalContent.append(
+                        `<label>클릭하여 사진 선택</label>`
+                    );
+                    modalContent.off("click");
+                    modalContent.on("click", onModalContentClick);
+                }
+                else{
+                    modalContent.off("click");
+                    modalContent.children("*").remove();
+                    modalContent.append(
+                            `
+                            <canvas class="preview"/>
+                            <label>클릭하여 사진 변경</label>
+                            <div class="retbutton"><button>UPLOAD</button></div>
+                            `
+                    ).ready(
+                        function(){
+                            const fileReader = new FileReader();
+                            fileReader.onload = (e)=>{
+                                const src = e.target.result;
+                                const img = new Image();
+                                img.onload = function(){
+                                    const canvas = modalContent.children("canvas")[0];
+                                    const context = canvas.getContext("2d");
+                                    context.drawImage(img, 0, 0, canvas.width, canvas.height);
+                                }
+                                img.src = src;
+                            }
+                            fileReader.readAsDataURL(file);
+                        }
+                    );
+
+                    modalContent.children("canvas").on("click", onModalContentClick);
+                    modalContent.children("div.retbutton").on("click", 
+                        function(){
+                            console.log("upload");
+                        }
+                    )
+                }
+            }
+            
+            $(document).on('click', '#return', function() {
+                const eqid = $(this).attr('name');
+                setEqid(eqid);
+                $('#modalContainer').addClass("visible");
+                renderModalContent($('#modalContent'));
             });
+
+            $("#modalContainer .closeButton").on("click", function (e){
+                $('#modalContainer').removeClass("visible");
+                $('#modalContent *').remove("");
+            });
+
             checkLoginStatus();
             checkLoginStatus2();
         });
@@ -129,6 +221,14 @@
     <footer>
         <p>서울대학교 아마추어 천문회</p>
     </footer>
+    </div>
+    <div id="modalContainer" class="modalContainer">
+        <div id="modalContent" class="modalContent">
+        </div>
+        <input id="fileBrowser" type="file" hidden>
+        <div class="closeButton">
+            <label>CLOSE</label>
+        </div>
     </div>
 </body>
 </html>
