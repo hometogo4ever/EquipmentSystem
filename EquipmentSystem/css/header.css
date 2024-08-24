@@ -133,12 +133,15 @@ header > nav {
     width: 100%;
 }
 header > nav > ul {
-    display: flex;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 0px;
     list-style: none;
     align-items: center;
 }
 header > nav > ul > li {
-    padding: 0px 30px;
+    text-align: center;
 }
 header > nav > ul > li > a {
     color: white;
