@@ -9,6 +9,9 @@
     <script src="js/jquery.js"></script>
     <script type="module">
         import { checkLoginStatus } from './js/login.js';
+        import uploadFile from './js/uploadFile.js';
+        import FileUploadModal from "./js/fileUploadModal.js";
+
         var user_id = 0;
         const fileServerHost = "https://api.nova.snuaaa.net:9887/fileServer";
         $(function() {
@@ -94,213 +97,19 @@
                     }
                 });
             }
-
-            async function upload(eqid, file, handlers){
-                const {onUpdate, onFinish} = handlers;
-                
-                onUpdate("파일 생성 중");
-                const {key, partData, fileSize} = await new Promise(
-                    (resolve, reject)=>{
-                        $.ajax(
-                            {
-                                url: `${fileServerHost}/file/createFile`,
-                                type: "post",
-                                contentType: "application/json",
-                                data: JSON.stringify(
-                                    {
-                                        fileName: file.name,
-                                        fileSize: file.size
-                                    }
-                                ),
-                                success: function(data){
-                                    resolve(data);
-                                },
-                                error: function(error){
-                                    reject(error);
-                                }
-                            }
-                        );
-                    }
-                );
-                onUpdate("파일 생성 완료");
-
-                const sliceData = partData.reduce(
-                    ({sliceData, offset}, partSize)=>{
-                        return {
-                            sliceData: [...sliceData, {
-                                start: offset,
-                                end: offset+partSize
-                            }],
-                            offset: offset+partSize
-                        }
-                    },
-                    {
-                        sliceData: [],
-                        offset: 0
-                    }
-                ).sliceData;
-                
-                let uploadState = Array.from({length: sliceData.length}).fill(false);
-                const uploadPromises = sliceData.map(
-                    async ({start, end}, index)=>{
-                        const part = file.slice(start, end);
-                        const formData = new FormData();
-                        formData.append("key", key);
-                        formData.append("partNo", index);
-                        formData.append("part", part, `${index}.part`);
-                        const {uploaded, error} = await new Promise(
-                            (resolve, reject)=>{
-                                
-                                $.ajax(
-                                    {
-                                        url: `${fileServerHost}/file/uploadPart`,
-                                        type: "post",
-                                        cache: false,
-                                        contentType: false,
-                                        processData: false,
-                                        data: formData,
-                                        success: (data)=>{
-                                            resolve(data);
-                                        },
-                                        error: (error)=>{
-                                            reject(error);
-                                        }
-                                    }
-                                )
-                            }
-                        );
-                        if(error){
-                            throw error;
-                        }
-                        uploadState[index]=(uploaded[index]===0);
-                        const complete = uploadState.reduce(
-                            (result, complete)=>result+complete, 0
-                        );
-                        onUpdate(`업로드 중 ${complete}/${uploadState.length}`);
-                    }
-                )
-                await Promise.all(uploadPromises);
-
-                onUpdate("파일 합성 중");
-
-                const {fileName: compeleteFileName, ok} = await new Promise(
-                    (resolve, reject)=>{
-                        $.ajax(
-                            {
-                                url: `${fileServerHost}/file/composeFile`,
-                                type: "post",
-                                contentType: "application/json",
-                                data: JSON.stringify({
-                                    key: key
-                                }),
-                                success: (data)=>resolve(data),
-                                error: (error)=>reject(error)
-                            }
-                        )
-                    }
-                );
-                
-                onUpdate("파일 업로드 완료");
-                onFinish(`${fileServerHost}/file/static/${compeleteFileName}`);
-            }
-
-            let eqid = null;
-            let files = new Map();
-            function setEqid(newEqid){
-                eqid = newEqid;
-            }
-            function setFile(eqid, newFile){
-                files.set(eqid, newFile);
-                renderModalContent($('#modalContent'));
-            }
             
-            function onModalContentClick(){
-                const modalContent = $(this);
-                const fileBrowser = $("#fileBrowser").clone();
-                fileBrowser.off("change");
-                fileBrowser.on("change", (e)=>{
-                    const targetFile = e.target.files[0];
-                    try{
-                        if(!targetFile){
-                            throw new Error("no file");
-                        }
-                        if(targetFile.type !=="image/jpeg"){
-                            throw new Error("not jpeg");
-                        }
-                        setFile(eqid, targetFile);
-                    }
-                    catch(e){
-                        console.log(e);
-                    }
-                });
-                fileBrowser.click();
-            }
-            function renderModalContent(modalContent){
-                const file = files.get(eqid)??null;
-                if(file === null){
-                    modalContent.children("*").remove();
-                    modalContent.append(
-                        `<label>클릭하여 사진 선택</label>`
-                    );
-                    modalContent.off("click");
-                    modalContent.on("click", onModalContentClick);
-                }
-                else{
-                    modalContent.off("click");
-                    modalContent.children("*").remove();
-                    modalContent.append(
-                            `
-                            <canvas class="preview"/>
-                            <label>클릭하여 사진 변경</label>
-                            <div class="retbutton"><button>UPLOAD</button></div>
-                            `
-                    ).ready(
-                        function(){
-                            const fileReader = new FileReader();
-                            fileReader.onload = (e)=>{
-                                const src = e.target.result;
-                                const img = new Image();
-                                img.onload = function(){
-                                    const canvas = modalContent.children("canvas")[0];
-                                    const context = canvas.getContext("2d");
-                                    context.drawImage(img, 0, 0, canvas.width, canvas.height);
-                                }
-                                img.src = src;
-                            }
-                            fileReader.readAsDataURL(file);
-                        }
-                    );
+            const fileUploadModal = new FileUploadModal($('#modalContent'), $('#fileBrowser'), reportReturn);
 
-                    modalContent.children("canvas").on("click", onModalContentClick);
-                    const messageLabel = modalContent.children("label")[0];
-                    modalContent.children("div.retbutton").on("click", 
-                        function(){
-                            upload(eqid, files.get(eqid), {
-                                onUpdate: (message)=>{
-                                    if(messageLabel){
-                                        messageLabel.textContent = message;
-                                    }
-                                },
-                                onFinish: (filePath)=>{
-                                    reportReturn(eqid, filePath);
-                                }
-                            });
-                        }
-                    )
-                }
-            }
-            
             $(document).on('click', '#return', function() {
                 const eqid = $(this).attr('name');
-                setEqid(eqid);
+                fileUploadModal.setEqid(eqid);
                 $('#modalContainer').addClass("visible");
-                renderModalContent($('#modalContent'));
             });
 
             $("#modalContainer .closeButton").on("click", function (e){
                 $('#modalContainer').removeClass("visible");
-                $('#modalContent *').remove("");
             });
+
 
             checkLoginStatus();
             checkLoginStatus2();
