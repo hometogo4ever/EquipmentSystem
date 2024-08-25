@@ -37,6 +37,8 @@ function dataURLtoFile(dataurl, fileName){
     return new File([u8arr], fileName, {type: mime});
 }
 
+const imageSize = {width: 480, height: 640};
+
 class FileUploadModal{
     constructor(container, inputFile, onFinish=null){
         this.container = container;
@@ -76,7 +78,7 @@ class FileUploadModal{
             modalContent.children("*").remove();
             modalContent.append(
                     `
-                    <canvas class="preview"/>
+                    <canvas class="preview" width="${imageSize.width}" height="${imageSize.height}"/>
                     <label>클릭하여 사진 변경</label>
                     <div class="retbutton"><button>UPLOAD</button></div>
                     `
