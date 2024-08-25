@@ -23,6 +23,20 @@ function inputFileClick(inputFile, setFile){
     }
 }
 
+function dataURLtoFile(dataurl, fileName){
+    const arr = dataurl.split(',');
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+
+    while(n--){
+        u8arr[n]=bstr.charCodeAt(n);
+    }
+
+    return new File([u8arr], fileName, {type: mime});
+}
+
 class FileUploadModal{
     constructor(container, inputFile, onFinish=null){
         this.container = container;
@@ -87,10 +101,12 @@ class FileUploadModal{
             const messageLabel = modalContent.children("label")[0];
 
             const onUploadFinish = (filePath)=>this.onFinish(eqid, filePath);
+            const canvas = modalContent.children("canvas")[0];
 
             modalContent.children("div.retbutton").on("click", 
                 function(){
-                    uploadFile(file, {
+                    const resizedFile = dataURLtoFile(canvas.toDataURL(), `resized_${file.name}`);
+                    uploadFile(resizedFile, {
                         onUpdate: (message)=>{
                             if(messageLabel){
                                 messageLabel.textContent = message;
