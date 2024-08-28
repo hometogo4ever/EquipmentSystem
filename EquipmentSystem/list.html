@@ -42,7 +42,7 @@
             function printdata(list) {
                 $('#result').empty();
                 for (var i = 0; i < list.length; i++) {
-                    const picref = list[i].pic_ref ? list[i].pic_ref : 'default.jpg';
+                    const pic_ref = list[i].pic_ref ? list[i].pic_ref : 'default.jpg';
                     const stat = list[i].equip_status;
                     console.log(stat);
                     let equip_status;
@@ -63,7 +63,7 @@
                     <div class="equipment">
                         <div class="desc-wrapper">
                             <div class="imgdesc">
-                                <img src="${picref.startsWith("http")?picref:`php/img/equipment/${picref}`}" alt="장비이미지">
+                                <img src="${pic_ref.startsWith("http")?pic_ref:`php/img/equipment/${pic_ref}`}" alt="장비이미지">
                             </div>
                             <div class="desc">
                                 <p>${list[i].eqname}</p>

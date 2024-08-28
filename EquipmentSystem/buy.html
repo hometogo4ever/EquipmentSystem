@@ -48,7 +48,7 @@
                     const pic_ref = list[i].pic_ref ? list[i].pic_ref : 'default.jpg';
                     $('#itemlist > table > tbody').append(
                         `<tr class="item">
-                            <td class="itemimg"><img src="./php/img/equipment/${pic_ref}" alt="장비사진"></td>
+                            <td class="itemimg"><img src="${pic_ref.startsWith("http")?pic_ref:`php/img/equipment/${pic_ref}`}" alt="장비사진"></td>
                             <td class="iteminfo">${list[i].eqname}</td>
                             <td class="buttons"><button id="delete" name=${list[i].eqname}>삭제</button></td>
                         </tr>`
