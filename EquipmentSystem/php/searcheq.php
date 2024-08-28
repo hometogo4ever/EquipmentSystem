@@ -15,9 +15,10 @@ if (mysqli_connect_errno()) {
     $results_per_page = 10; // 한 페이지에 표시할 결과 수
     $offset = ($page - 1) * $results_per_page;
 
-    $sql = "SELECT `equip`.`name` as `eqname`, `maker`, `type`, `loc`.`name` as `locname`, `equip_status`, `pic_ref`, `nickname`, `feature`, `equip_id` as `eqid`
+    $sql = "SELECT `equip`.`name` as `eqname`, `maker`, `kindof`.`name` as `tyname`, `loc`.`name` as `locname`, `equip_status`, `pic_ref`, `nickname`, `feature`, `equip_id` as `eqid`
              FROM `equip`
              JOIN `loc` ON `equip`.`loc_id` = `loc`.`loc_id`
+             JOIN `kindof` ON `equip`.`type` = `kindof`.`id`
              WHERE 1=1";
 
     $name = mysqli_real_escape_string($link, $name);

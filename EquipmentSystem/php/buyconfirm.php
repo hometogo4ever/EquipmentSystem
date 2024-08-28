@@ -66,13 +66,13 @@ if (!mysqli_connect_errno()) {
     $num = count($arr);
     if ($num > 0) {
         $string = implode(",", $arr);
-        setcookie("buylist", $string, time() + 3600,"/");
-        setcookie("shoppinglist", $string, time() + 3600, "/");
+        setcookie("buylist", $string, time() + 3600,"/EquipmentSystem");
+        setcookie("shoppinglist", $string, time() + 3600, "/EquipmentSystem");
     } else {
-        setcookie("buylist", "", time() - 3600, "/");
-        setcookie("shoppinglist", "", time() - 3600, "/");
+        setcookie("buylist", "", time() - 3600, "/EquipmentSystem");
+        setcookie("shoppinglist", "", time() - 3600, "/EquipmentSystem");
         $rett = implode(',', $namelist);
-        setcookie("afterbuy", $rett, time() + 3600, "/");
+        setcookie("afterbuy", $rett, time() + 3600, "/EquipmentSystem");
     }
     mysqli_close($link);
     echo $num;

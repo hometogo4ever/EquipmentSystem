@@ -14,7 +14,7 @@ if (mysqli_connect_errno()) {
     $datastmt->execute();
     $dataresult = $datastmt->get_result();
     if (mysqli_num_rows($dataresult) > 0) {
-        $sql = "DELETE FROM `rent` WHERE `equip_id` = '$eqid' AND `user_id` = ?";
+        $sql = "DELETE FROM `rent` WHERE `equip_id` = '$eqid' AND `user_id` = ? ORDER BY `start_date` ASC LIMIT 1";
         $stmt = mysqli_prepare($link, $sql);
         $stmt->bind_param("s", $userid);
         $result = $stmt->execute();
