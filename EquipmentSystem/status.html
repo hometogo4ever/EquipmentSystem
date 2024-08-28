@@ -98,7 +98,7 @@
                 });
             }
             
-            const fileUploadModal = new FileUploadModal($('#modalContent'), $('#fileBrowser'), reportReturn);
+            const fileUploadModal = new FileUploadModal($('#modalContent'), reportReturn);
 
             $(document).on('click', '#return', function() {
                 const eqid = $(this).attr('name');
@@ -160,7 +160,6 @@
     <div id="modalContainer" class="modalContainer">
         <div id="modalContent" class="modalContent">
         </div>
-        <input id="fileBrowser" type="file" hidden>
         <div class="closeButton">
             <label>CLOSE</label>
         </div>

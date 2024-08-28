@@ -40,9 +40,8 @@ function dataURLtoFile(dataurl, fileName){
 const imageSize = {width: 480, height: 640};
 
 class FileUploadModal{
-    constructor(container, inputFile, onFinish=null){
+    constructor(container, onFinish=null){
         this.container = container;
-        this.inputFile = inputFile;
         this.onFinish = ((onFinish)=>(onFinish instanceof Function)?onFinish:()=>{})(onFinish);
         this.eqid = null;
         this.files = new Map();
@@ -63,10 +62,12 @@ class FileUploadModal{
         const eqid = this.eqid;
         const modalContent = this.container;
         const file = this.files.get(eqid)??null;
-        const onFileClick = inputFileClick(this.inputFile, (file)=>this.setFile(eqid, file));
+        
+        modalContent.children("*").remove();
+        const inputFile = $(modalContent.append(`<input type="file" id="contentFileBrowser" hidden>`).children("#contentFileBrowser")[0]);
+        const onFileClick = inputFileClick(inputFile, (file)=>this.setFile(eqid, file));
 
         if(file === null){
-            modalContent.children("*").remove();
             modalContent.append(
                 `<label>클릭하여 사진 선택</label>`
             );
@@ -75,7 +76,6 @@ class FileUploadModal{
         }
         else{
             modalContent.off("click");
-            modalContent.children("*").remove();
             modalContent.append(
                     `
                     <canvas class="preview" width="${imageSize.width}" height="${imageSize.height}"/>
