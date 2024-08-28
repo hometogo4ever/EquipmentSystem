@@ -49,11 +49,11 @@
                 for (var i=0; i<list.length; i++) {
                     const dueover = new Date(list[i].due_date) < new Date();
                     const text = dueover ? '반납기한이 지났습니다.' : '';
-                    const picref = list[i].pic_ref ? list[i].pic_ref : 'default.jpg';
+                    const pic_ref = list[i].pic_ref ? list[i].pic_ref : 'default.jpg';
                     $('#statuslist > ul').append(
                         `<li>
                             <div class="item">
-                                <img src="./php/img/equipment/${picref}" alt="장비사진">
+                                <img src="${pic_ref.startsWith("http")?pic_ref:`php/img/equipment/${pic_ref}`}" alt="장비사진">
                                 <div class="iteminfo">
                                     <h2>${list[i].eqname}</h2>
                                     <p>대여일: ${list[i].start_date}</p>
