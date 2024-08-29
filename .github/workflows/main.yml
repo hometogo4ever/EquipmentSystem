@@ -25,4 +25,12 @@ jobs:
       run: |
         echo "$SSH_PRIVATE_KEY" > private_key
         chmod 600 private_key
-        rsync -avz --no-times -e "ssh -i private_key -o StrictHostKeyChecking=no" --exclude '.git/' ./EquipmentSystem/ $SSH_USER@$SSH_HOST:/var/www/vhosts/archive.snuaaa.net/EquipmentSystem
+        rsync -avz --no-times --no-perms -e "ssh -i private_key -o StrictHostKeyChecking=no" --exclude '.git/' ./EquipmentSystem/ $SSH_USER@$SSH_HOST:/var/www/vhosts/archive.snuaaa.net/EquipmentSystem
+
+    - name: Set permissions
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        SSH_HOST: archive.snuaaa.net
+        SSH_USER: equipmentsystem
+      run: |
+        ssh -i private_key -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "chmod 777 -R /var/www/vhosts/archive.snuaaa.net/EquipmentSystem"
