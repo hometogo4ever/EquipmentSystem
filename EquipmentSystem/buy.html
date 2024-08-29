@@ -78,6 +78,17 @@
                     }
                 });
             }
+            function deleteFromCookie(item, cookie) {
+                const cookiecontent = getCookie(cookie);
+                const arr = cookiecontent.split(',');
+                const index = arr.indexOf(item);
+                arr.splice(index, 1);
+                if (arr.length == 0 || arr[0] == '' || arr[0] == ',') {
+                    document.cookie = `${cookie}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+                    return;
+                }
+                document.cookie = `${cookie}=${arr}`;
+            }
             $('#confirm').click(function() {
                 const buylist = getCookie('buylist');
                 const isLoggedIn = user_id;
@@ -107,11 +118,8 @@
             }); 
             $(document).on('click', '#delete', function() {
                 const item = $(this).attr('name');
-                const buylist = getCookie('buylist');
-                const arr = buylist.split(',');
-                const index = arr.indexOf(item);
-                arr.splice(index, 1);
-                document.cookie = `buylist=${arr}`;
+                deleteFromCookie(item, 'buylist');
+                deleteFromCookie(item, 'shoppinglist');
                 window.location.href = 'buy.html';
             });
             checkLoginStatus2();
@@ -140,6 +148,13 @@
                 <ul>
                 </ul>
             </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">홈</a></li>
+                    <li><a href="list.html">대여하기</a></li>
+                    <li><a href="status.html">대여현황</a></li>
+                </ul>
+            </nav>
         </header>
         <div id="section-wrapper">
         <section>
