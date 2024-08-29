@@ -42,7 +42,7 @@
             function printdata(list) {
                 $('#result').empty();
                 for (var i = 0; i < list.length; i++) {
-                    const picref = list[i].pic_ref ? list[i].pic_ref : 'default.jpg';
+                    const pic_ref = list[i].pic_ref ? list[i].pic_ref : 'default.jpg';
                     const stat = list[i].equip_status;
                     console.log(stat);
                     let equip_status;
@@ -58,11 +58,12 @@
                         equip_status = '기타';
                     }
                     const buttons = list[i].equip_status == '1' ? `<div class="buttons"><button class="buyi" name="${list[i].eqid}">대여</button><button class="cart" name="${list[i].eqid}">장바구니</button></div>` : '';
+                    
                     $('#result').append(`
                     <div class="equipment">
                         <div class="desc-wrapper">
                             <div class="imgdesc">
-                                <img src="./php/img/equipment/${picref}" alt="장비이미지">
+                                <img src="${pic_ref.startsWith("http")?pic_ref:`php/img/equipment/${pic_ref}`}" alt="장비이미지">
                             </div>
                             <div class="desc">
                                 <p>${list[i].eqname}</p>

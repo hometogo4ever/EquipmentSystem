@@ -7,6 +7,7 @@ if (mysqli_connect_errno()) {
 } else {
     $eqid = $_POST['eqid'];
     $userid = $_POST['user_id'];
+    $filePath = $_POST['filePath'];
     $data = "SELECT * FROM `rent` WHERE `equip_id` = '$eqid' AND `user_id` = ?";
     $datastmt = mysqli_prepare($link, $data);
     $datastmt->bind_param("s", $userid);
@@ -38,9 +39,9 @@ if (mysqli_connect_errno()) {
                 $dueover = ($due < date('Y-m-d H:i:s')) ? 0 : $data2['status'];
                 $current = new DateTime();
                 $current = $current->format("Y-m-d H:i:s");
-                $sql3 = "INSERT INTO `history` (`user_id`,`equip_id`, `start_date`, `status`, `end_date`) VALUES (?, ?, ?, ?, ?)";
+                $sql3 = "INSERT INTO `history` (`user_id`,`equip_id`, `start_date`, `status`, `end_date`, `imagePath`) VALUES (?, ?, ?, ?, ?, ?)";
                 $stmt = mysqli_prepare($link, $sql3);
-                $stmt->bind_param("sssss", $userid, $eqid, $start, $dueover, $current);
+                $stmt->bind_param("ssssss", $userid, $eqid, $start, $dueover, $current, $filePath);
                 $result3 = $stmt->execute();
                 if ($result3) {
                     echo "1";
