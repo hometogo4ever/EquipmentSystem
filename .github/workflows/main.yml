@@ -1,6 +1,7 @@
 name: Deploy to SNUAAA AWS server
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
