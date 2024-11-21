@@ -10,6 +10,7 @@
             url: 'php/getRent.php',
             type: 'post',
             success: function(data) {
+                console.log(data);
                 var list = JSON.parse(data);
                 for (var i = 0; i < list.length; i++) {
                     $('#result table tbody').append('<tr><td>' + list[i].hisid + '</td><td>' + list[i].username + '</td><td>' + list[i].eqname + '</td><td>' + list[i].date + '</td></tr>');
