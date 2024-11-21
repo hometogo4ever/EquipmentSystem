@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="js/jquery.js"></script>
+    <script type="module">
+        $.ajax({
+            url: 'php/getRent.php',
+            type: 'post',
+            success: function(data) {
+                var list = JSON.parse(data);
+                for (var i = 0; i < list.length; i++) {
+                    $('#result table tbody').append('<tr><td>' + list[i].hisid + '</td><td>' + list[i].username + '</td><td>' + list[i].eqname + '</td><td>' + list[i].date + '</td></tr>');
+                }
+            },
+        })
+    </script>
+</head>
+<body>
+    <div id="result">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>대여자</th>
+                    <th>장비명</th>
+                    <th>대여일</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <div id="ongoing">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>대여자</th>
+                    <th>장비명</th>
+                    <th>대여일</th>
+                    <th>연체여부</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
